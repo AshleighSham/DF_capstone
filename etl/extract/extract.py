@@ -18,6 +18,7 @@ def extract_data() -> pd.DataFrame:
     try:
         tracks = pd.read_csv(FILE_PATH)
         extract_tracks_execution_time = timeit.default_timer() - start_time
+        print(f"Extracted {len(tracks)} rows in {extract_tracks_execution_time:.4f} seconds")
         return tracks
     except Exception:
         raise Exception(f"Failed to load CSV file: {FILE_PATH}")

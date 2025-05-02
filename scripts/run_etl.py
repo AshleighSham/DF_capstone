@@ -3,6 +3,7 @@ import sys
 sys.path.append('../')
 from config.env_config import setup_env
 from etl.extract.extract import extract_data
+from etl.transform.transform import transform_data
 
 
 def main():
@@ -13,6 +14,11 @@ def main():
     print("Data extraction complete.")
 
     print(extracted_data.columns)
+
+    print("Transforming data...")
+    transformed_data = transform_data()
+    print("Data Transformation complete.")
+
     print(
         f"ETL pipeline run successfully in "
         f'{os.getenv("ENV", "error")} environment!'
