@@ -1,7 +1,24 @@
-import kagglehub
+import os
+import pandas as pd
+import timeit
 
-# Download latest version
-path = kagglehub.dataset_download("joebeachcapital/top-10000-spotify-songs-1960-now")
 
-print("Path to dataset files:", path)
+EXPECTED_PERFORMANCE = 0.0001
+
+FILE_PATH = os.path.join(
+    os.path.dirname(__file__), '../../data/raw/top_10000_1960-now.csv'
+)
+
+TYPE = 'TRACKS from CSV'
+
+
+def extract_data() -> pd.DataFrame:
+    start_time = timeit.default_timer()
+
+    try:
+        tracks = pd.read_csv(FILE_PATH)
+        extract_tracks_execution_time = timeit.default_timer() - start_time
+        return tracks
+    except Exception:
+        raise Exception(f"Failed to load CSV file: {FILE_PATH}")
 
