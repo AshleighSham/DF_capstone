@@ -19,7 +19,7 @@ def main():
 
     filepath = os.path.join("../data/clean/transformed_data.csv")
     transformed_data.to_csv(filepath, index=False)
-    print(transformed_data.head(10))
+    print(transformed_data.columns)
 
     print(
         f"ETL pipeline run successfully in "
