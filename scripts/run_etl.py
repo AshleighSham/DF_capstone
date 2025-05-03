@@ -13,11 +13,13 @@ def main():
     extracted_data = extract_data()
     print("Data extraction complete.")
 
-    print(extracted_data.columns)
-
     print("Transforming data...")
-    transformed_data = transform_data()
+    transformed_data = transform_data(extracted_data)
     print("Data Transformation complete.")
+
+    filepath = os.path.join("../data/clean/transformed_data.csv")
+    transformed_data.to_csv(filepath, index=False)
+    print(transformed_data.head(10))
 
     print(
         f"ETL pipeline run successfully in "
