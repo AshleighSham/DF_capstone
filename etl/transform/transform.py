@@ -1,5 +1,5 @@
 import pandas as pd
-from utils.transform_utils import convert_uris_to_ids, AuthenticateSpotify, get_track_data, get_tracks_data
+from utils.transform_utils import convert_uris_to_ids, AuthenticateSpotify, get_track_data, get_tracks_data, check_in_list, genre_dict
 
 
 def format_column_names(tracks: pd.DataFrame) -> pd.DataFrame:
@@ -25,8 +25,6 @@ def transform_data(tracks: pd.DataFrame) -> pd.DataFrame:
     Returns:
 
     """
-    # Clean the tracks DataFrame
-
     # format dataframe column names
     tracks = format_column_names(tracks)
 
@@ -49,11 +47,14 @@ def transform_data(tracks: pd.DataFrame) -> pd.DataFrame:
     # Set the index to the track ID
     # tracks = tracks.set_index('track_id')
 
+    # add columns for cleaner genre for the lols
+    tracks = simplify_and_expand_artist_genres(tracks)
+
     return tracks
 
 
 def update_data(dataframe: pd.DataFrame, token) -> pd.DataFrame:
-    
+
     updated_df = dataframe.copy()
     batch_size = 50  # Adjust batch size if needed
 
@@ -121,6 +122,9 @@ def clean_tracks(tracks: pd.DataFrame) -> pd.DataFrame:
     # Drop rows with invalid dates
     tracks = tracks.dropna(subset=['album_release_date'])
 
+    # format artist_id
+    tracks['artist_id'] = tracks['artist_id'].str.replace('spotify:artist:', '', regex=False)
+
     return tracks
 
 
@@ -167,4 +171,18 @@ def format_artist_id(tracks: pd.DataFrame) -> pd.DataFrame:
     # Convert artist_id to a list of strings fro API data calls
     tracks['artist_id'] = tracks['artist_id'].str.replace('spotify:artist:', '', regex=False)
     tracks['artist_id'] = tracks['artist_id'].str.replace(' ', '', regex=False)
+    return tracks
+
+
+def simplify_and_expand_artist_genres(tracks):
+    tracks["artist_genres"] = tracks["artist_genres"].apply(lambda x: x.split(',') if isinstance(x, str) else [])
+
+    genres = genre_dict()
+    # add genre count column for missing value count
+    for key, value in genres.items():
+        tracks[key] = tracks.apply(lambda x: check_in_list(x['artist_genres'], value), axis=1)
+
+    tracks['genre_count'] = tracks[genres.keys()].sum(axis=1)
+    tracks = tracks.drop(columns=['artist_genres'])
+
     return tracks

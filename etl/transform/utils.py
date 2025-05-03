@@ -1,6 +1,7 @@
 import pandas as pd
 import requests
 import base64
+import re
 
 
 def AuthenticateSpotify():
