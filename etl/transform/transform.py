@@ -175,7 +175,6 @@ def format_artist_id(tracks: pd.DataFrame) -> pd.DataFrame:
 
 
 def simplify_and_expand_artist_genres(tracks):
-    tracks["artist_genres"] = tracks["artist_genres"].apply(lambda x: x.split(',') if isinstance(x, str) else [])
 
     genres = genre_dict()
     # add genre count column for missing value count

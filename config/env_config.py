@@ -28,6 +28,7 @@ def setup_env(argv):
     or is not one of the expected values.
     :raises KeyError: If the ENV variable is not set
     """
+    os.chdir("c:/Users/ashle/Documents/GitHub/DF_capstone")
     if len(argv) != 2 or argv[1] not in ENVS:
         raise ValueError(
             'Please provide an environment: '
@@ -47,6 +48,9 @@ def setup_env(argv):
     print(f"Loading environment variables from: {env_file}")
 
     load_dotenv(env_file, override=True)
+    print(f"TARGET_DB_NAME: {os.getenv('TARGET_DB_NAME')}")
+    if os.getenv('TARGET_DB_NAME') is None:
+        raise 'error'
 
 
 def cleanup_previous_env():
@@ -73,11 +77,10 @@ def cleanup_previous_env():
     environments.
     """
     keys_to_clear = [
-        'SOURCE_DB_NAME', 'SOURCE_DB_USER', 'SOURCE_DB_PASSWORD',
-        'SOURCE_DB_HOST', 'SOURCE_DB_PORT',
         'TARGET_DB_NAME', 'TARGET_DB_USER', 'TARGET_DB_PASSWORD',
         'TARGET_DB_HOST', 'TARGET_DB_PORT'
     ]
     for key in keys_to_clear:
         if key in os.environ:
+            print(f"Clearing environment variable: {key}")
             del os.environ[key]

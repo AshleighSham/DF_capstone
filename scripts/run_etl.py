@@ -4,6 +4,7 @@ sys.path.append('../')
 from config.env_config import setup_env
 from etl.extract.extract import extract_data
 from etl.transform.transform import transform_data
+from etl.load.load import load_data
 
 
 def main():
@@ -17,9 +18,14 @@ def main():
     transformed_data = transform_data(extracted_data)
     print("Data Transformation complete.")
 
-    filepath = os.path.join("../data/clean/transformed_data.csv")
+    filepath = os.path.join("data/clean/transformed_data.csv")
     transformed_data.to_csv(filepath, index=False)
     print(transformed_data.columns)
+
+    # After transformation
+    print("Loading data into PostgreSQL...")
+    load_data(transformed_data)
+    print("Data loading complete.")
 
     print(
         f"ETL pipeline run successfully in "
