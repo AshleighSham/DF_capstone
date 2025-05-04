@@ -7,6 +7,7 @@ exclude =
     build,
     dist,
     data,
+    data/test.ipynb,
     docs,
     etl_example.egg-info,
     htmlcov,

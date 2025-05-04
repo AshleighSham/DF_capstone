@@ -35,6 +35,13 @@ def load_db_config() -> Dict[str, Dict[str, str]]:
 
 
 def validate_db_config(config):
+    """
+
+    Args:
+
+    Returns:
+
+    """
     for db_key, db_config in config.items():
         for key, value in db_config.items():
             if value == "error":

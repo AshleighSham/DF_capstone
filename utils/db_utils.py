@@ -11,6 +11,13 @@ class QueryExecutionError(Exception):
 
 
 def get_db_connection(connection_params):
+    """
+
+    Args:
+
+    Returns:
+
+    """
     try:
         engine = create_db_engine(connection_params)
         connection = engine.connect()
@@ -29,6 +36,13 @@ def get_db_connection(connection_params):
 
 
 def create_db_engine(connection_params):
+    """
+
+    Args:
+
+    Returns:
+
+    """
     try:
         if (
             not connection_params.get("user")

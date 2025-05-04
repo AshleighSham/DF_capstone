@@ -19,15 +19,6 @@ QUERY_PATH = os.path.join(ROOT_DIR, 'etl', 'sql')
 TARGET_TABLE_NAME = "as_capstone"
 
 LOAD_QUERY_FILES = {
-    "load_merged_data": os.path.join(
-        os.path.dirname(__file__), "load_merged_data.sql"
-    ),
-    "load_high_value_customers": os.path.join(
-        os.path.dirname(__file__), "load_high_value_customers.sql"
-    ),
-    "load_cleaned_high_value_customers": os.path.join(
-        os.path.dirname(__file__), "load_cleaned_high_value_customers.sql"
-    ),
     "set_primary_key": os.path.join(
         os.path.dirname(QUERY_PATH), "sql/set_primary_key.sql"
     ),
@@ -35,6 +26,13 @@ LOAD_QUERY_FILES = {
 
 
 def import_sql_query(filename):
+    """
+
+    Args:
+
+    Returns:
+
+    """
     try:
         with open(filename, 'r') as file:
             imported_query = file.read().replace('\n', ' ').strip()
@@ -46,6 +44,13 @@ def import_sql_query(filename):
 
 
 def load_data(data):
+    """
+
+    Args:
+
+    Returns:
+
+    """
     try:
         connection_details = load_db_config()["target_database"]
         connection = get_db_connection(connection_details)
@@ -76,6 +81,13 @@ def load_data(data):
 
 
 def upsert_on_existing_table(data: pd.DataFrame, connection):
+    """
+
+    Args:
+
+    Returns:
+
+    """
     try:
         data_dict = data.to_dict(orient="records")
 
@@ -117,6 +129,13 @@ def upsert_on_existing_table(data: pd.DataFrame, connection):
 
 
 def set_primary_key(connection):
+    """
+
+    Args:
+
+    Returns:
+
+    """
     create_primary_key_query = import_sql_query(
         LOAD_QUERY_FILES["set_primary_key"]
     )

@@ -8,6 +8,13 @@ from etl.load.load import load_data
 
 
 def main():
+    """
+
+    Args:
+
+    Returns:
+
+    """
     run_env_setup()
 
     print("Extracting data...")
@@ -34,6 +41,13 @@ def main():
 
 
 def run_env_setup():
+    """
+
+    Args:
+
+    Returns:
+
+    """
     print("Setting up environment...")
     setup_env(sys.argv)
     print("Environment setup complete.")
