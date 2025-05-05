@@ -1,36 +1,18 @@
 import pandas as pd
 from utils.transform_utils import (
     convert_uris_to_ids,
-    AuthenticateSpotify,
     get_track_data,
     get_tracks_data,
     check_in_list,
     genre_dict
 )
-
-
-def format_column_names(tracks: pd.DataFrame) -> pd.DataFrame:
-    """
-
-    Args:
-
-    Returns:
-
-    """
-    # remove spaces and change to lower case
-    tracks.columns = tracks.columns.str.lower().str.replace(' ', '_')
-    # remove special characters
-    tracks.columns = tracks.columns.str.replace('(', '').str.replace(')', '')
-    return tracks
+from utils.api_utils import AuthenticateSpotify
 
 
 def transform_data(tracks: pd.DataFrame) -> pd.DataFrame:
     """
-
-    Args:
-
-    Returns:
-
+    Transforms the input DataFrame of tracks by performing a series of
+    cleaning, formatting, and enrichment operations
     """
     # format dataframe column names
     tracks = format_column_names(tracks)
@@ -58,26 +40,45 @@ def transform_data(tracks: pd.DataFrame) -> pd.DataFrame:
     return tracks
 
 
+def format_column_names(tracks: pd.DataFrame) -> pd.DataFrame:
+    """
+    Format the columns names to consistent standards
+    """
+
+    # remove spaces and change to lower case
+    tracks.columns = tracks.columns.str.lower().str.replace(' ', '_')
+
+    # remove special characters
+    tracks.columns = tracks.columns.str.replace('(', '').str.replace(')', '')
+
+    return tracks
+
+
 def update_data(dataframe: pd.DataFrame, token) -> pd.DataFrame:
     """
-
-    Args:
-
-    Returns:
-
+    Updates the 'popularity' column in the given DataFrame by fetching data
+    from an external API using track IDs and ISRC codes.
     """
+
     updated_df = dataframe.copy()
-    batch_size = 50  # Adjust batch size if needed
+
+    # process the DataFrame in batches to optimise API calls
+    batch_size = 50
 
     for i in range(0, len(dataframe), batch_size):
+
+        # select batch of track_id
         end_index = min(i + batch_size, len(dataframe))
         tracks_ids = dataframe[i:end_index]['track_id'].tolist()
 
         try:
             response = get_tracks_data(token, tracks_ids)
+
+            # select popularity and a second id for comformation
             temp_isrc = [item.get('external_ids')['isrc'] for
                          item in response['tracks']]
             temp_pop = [item['popularity'] for item in response['tracks']]
+
             # Create a mapping of ISRC to popularity
             isrc_pop_map = dict(zip(temp_isrc, temp_pop))
 
@@ -93,17 +94,22 @@ def update_data(dataframe: pd.DataFrame, token) -> pd.DataFrame:
                         # Set as null if ISRC doesn't match
                         updated_df.loc[idx, 'popularity'] = pd.NA
                 except Exception as row_error:
+
                     print(f"Error processing row {idx}: {row_error}")
                     # Set as null for problematic rows
                     updated_df.loc[idx, 'popularity'] = pd.NA
         except Exception as batch_error:
+            # if a batch fails, move to row by row updation for that batch
+
             for j in range(i, end_index):
                 try:
-                    # Attempt to process each track ID individually
+                    # Attempt to process each track IDs individually
                     track_id = dataframe.loc[j, 'track_id']
                     a = get_track_data(token, track_id)
+
                     if 'isrc' in a.get('external_ids'):
                         isrc_value = a.get('external_ids')['isrc']
+
                         if isrc_value == updated_df.loc[j, 'isrc']:
                             updated_df.loc[j, 'popularity'] = a['popularity']
                     else:
@@ -119,6 +125,7 @@ def update_data(dataframe: pd.DataFrame, token) -> pd.DataFrame:
                                   )
                               )
                 except Exception as e:
+                    # if the row updation fail print error and continue
                     print(
                           "Error processing track ID {j}, irsc {irsc}".format(
                             j=j, irsc=updated_df.loc[j, 'isrc']
@@ -128,33 +135,31 @@ def update_data(dataframe: pd.DataFrame, token) -> pd.DataFrame:
                         "Error: {e}".format(e=e)
                     )
                     continue
-                    # Optionally, handle the error or log it
+
+            # prin tth ebatch that failed and the IRSC ids in it
             print(f"Error processing batch {i}-{end_index}: {batch_error}")
             print(f"Track IDs in batch: {tracks_ids}")
-            # Optionally, continue to the next batch or break
             continue
+
     return updated_df
 
 
 def clean_tracks(tracks: pd.DataFrame) -> pd.DataFrame:
     """
-
-    Args:
-
-    Returns:
-
+    Cleans and transforms a DataFrame containing track information
     """
-    # Remove duplicates
+
+    # remove duplicates
     tracks = tracks.drop_duplicates()
 
-    # Standardise date format
+    # standardise date format
     tracks['album_release_date'] = pd.to_datetime(tracks['album_release_date'],
                                                   errors='coerce')
     tracks['album_release_date'] = tracks['album_release_date'].dt.strftime(
                                                     '%d/%m/%Y'
                                                 )
 
-    # Drop rows with invalid dates
+    # drop rows with invalid dates
     tracks = tracks.dropna(subset=['album_release_date'])
 
     # format artist_id
@@ -166,31 +171,27 @@ def clean_tracks(tracks: pd.DataFrame) -> pd.DataFrame:
 
 def remove_missing_values(tracks: pd.DataFrame) -> pd.DataFrame:
     """
-
-    Args:
-
-    Returns:
-
+    Drop rows where specific columns have missing data
     """
+
     # Remove rows with missing values
     tracks = tracks.dropna(subset=['track_id', 'track_name',
                                    'artist_id', 'artist_names',
                                    'album_release_date', 'album_id',
                                    'album_name', 'album_artist_id',
                                    'album_artist_names', 'album_image_url'])
+
     return tracks
 
 
 def drop_columns(tracks: pd.DataFrame) -> pd.DataFrame:
     """
-
-    Args:
-
-    Returns:
-
+    Remove columns
     """
+
     # Remove user API data
     tracks = tracks.drop(columns=['added_at', 'added_by'])
+
     # Remove unnecessary columns
     tracks = tracks.drop(columns=['track_preview_url', 'album_genres',
                                   'copyrights', 'label'])
@@ -199,27 +200,22 @@ def drop_columns(tracks: pd.DataFrame) -> pd.DataFrame:
 
 def format_artist_id(tracks: pd.DataFrame) -> pd.DataFrame:
     """
-
-    Args:
-
-    Returns:
-
+    Reformat the artist id columns so they are compatible with the API
     """
-    # Convert artist_id to a list of strings fro API data calls
+
     tracks['artist_id'] = tracks['artist_id'].str.replace('spotify:artist:',
                                                           '', regex=False)
     tracks['artist_id'] = tracks['artist_id'].str.replace(' ', '', regex=False)
+
     return tracks
 
 
 def simplify_and_expand_artist_genres(tracks):
     """
-
-    Args:
-
-    Returns:
-
+    Map the artist_genres columns out into less and more broad genres,
+    mapping made with the help of CoPilot
     """
+
     # import genres dictionary
     genres = genre_dict()
 

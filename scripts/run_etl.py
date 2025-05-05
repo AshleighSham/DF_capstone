@@ -9,31 +9,34 @@ from etl.load.load import load_data
 
 def main():
     """
-
-    Args:
-
-    Returns:
-
+    Executes the ETL (Extract, Transform, Load) pipeline.
     """
+
+    # set up environment
     run_env_setup()
 
-    print("Extracting data...")
-    extracted_data = extract_data()
-    print("Data extraction complete.")
+    # extract data from source
+    # print("Extracting data...")
+    # extracted_data = extract_data()
+    # print("Data extraction complete.")
 
-    print("Transforming data...")
-    transformed_data = transform_data(extracted_data)
-    print("Data Transformation complete.")
+    # transform the data
+    # print("Transforming data...")
+    # transformed_data = transform_data(extracted_data)
+    # print("Data Transformation complete.")
 
-    filepath = os.path.join("data/clean/transformed_data.csv")
-    transformed_data.to_csv(filepath, index=False)
-    print(transformed_data.columns)
+    # save the transformed data tpo csv to test against sql database
+    # filepath = os.path.join("data/clean/transformed_data.csv")
+    # transformed_data.to_csv(filepath, index=False)
 
-    # After transformation
+    transformed_data = extract_data(start=False)
+
+    # Loads the transformed data into a PostgreSQL database
     print("Loading data into PostgreSQL...")
     load_data(transformed_data)
     print("Data loading complete.")
 
+    # Prints status messages to indicate progress and completion
     print(
         f"ETL pipeline run successfully in "
         f'{os.getenv("ENV", "error")} environment!'
@@ -42,11 +45,7 @@ def main():
 
 def run_env_setup():
     """
-
-    Args:
-
-    Returns:
-
+    Set up the environment and return completetion message
     """
     print("Setting up environment...")
     setup_env(sys.argv)

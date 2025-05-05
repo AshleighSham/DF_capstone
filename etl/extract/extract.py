@@ -3,8 +3,6 @@ import pandas as pd
 import timeit
 
 
-EXPECTED_PERFORMANCE = 0.0001
-
 FILE_PATH = os.path.join(
     os.path.dirname(__file__), '../../data/raw/top_10000_1960-now.csv'
 )
@@ -12,17 +10,25 @@ FILE_PATH = os.path.join(
 TYPE = 'TRACKS from CSV'
 
 
-def extract_data() -> pd.DataFrame:
+def extract_data(start=True) -> pd.DataFrame:
+    if start is True:
+        FILE_PATH = os.path.join(
+            os.path.dirname(__file__), '../../data/raw/top_10000_1960-now.csv'
+        )
+    else:
+        FILE_PATH = os.path.join(
+            os.path.dirname(__file__), '../../data/clean/transformed_data.csv'
+        )
+    """
+    Extracts data from a CSV file and returns it as a pandas DataFrame
     """
 
-    Args:
-
-    Returns:
-
-    """
+    # initialise the timer
     start_time = timeit.default_timer()
 
     try:
+        # try to export the csv into a dataframe and print number of rows
+        # and time taken
         tracks = pd.read_csv(FILE_PATH)
         extract_tracks_execution_time = timeit.default_timer() - start_time
         print(
