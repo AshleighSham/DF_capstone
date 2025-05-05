@@ -13,6 +13,7 @@ QUERY_PATH = os.path.join(ROOT_DIR, 'etl', 'sql')
 QUERY_FILE_NAMES = {
     "gby": "genres_by_year.sql",
     "pby": "properties_by_year.sql",
+    "at": "artists_track_table.sql"
 }
 
 
