@@ -1,7 +1,9 @@
 import os
 from app.sql_utils import import_sql_query
-from app.page_4.line_plot import line_plot
+from app.page_4.line_plot import line_plot, bar_graph
 import pandas as pd
+import streamlit as st
+import plotly.express as px
 
 ROOT_DIR = "c:/Users/ashle/Documents/GitHub/DF_capstone"
 QUERY_PATH = os.path.join(ROOT_DIR, 'streamlit', 'app', 'sql')
@@ -16,4 +18,4 @@ def genres_by_year(conn):
     # Convert the result to a Pandas DataFrame
     df = pd.DataFrame(result)
 
-    line_plot(df)
+    bar_graph(df)

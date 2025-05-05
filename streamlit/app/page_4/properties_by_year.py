@@ -1,5 +1,4 @@
 import os
-import streamlit as st
 from app.sql_utils import import_sql_query
 from app.page_4.line_plot import line_plots
 import pandas as pd
