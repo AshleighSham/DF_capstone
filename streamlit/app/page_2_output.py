@@ -1,18 +1,25 @@
 import streamlit as st
-from app.artist_top_tracks import get_artists_top_tracks
-from app.artist_albums import get_artist_albums
-from app.artist_data import get_artists_data
-from app.page_2_dataframes import get_full_album_dataframe, display_albums_dataframe, display_individual_album_dataframe, all_album_scatter, individual_album_scatter
+from app.page_1.artist_top_tracks import get_artists_top_tracks
+from app.page_1.artist_data import get_artists_data
+from app.page_2.artist_albums import get_artist_albums
+from app.page_2.dataframes import (
+    get_full_album_dataframe,
+    display_albums_dataframe,
+    display_individual_album_dataframe
+)
+from app.page_2.scatter_plot import individual_album_scatter, all_album_scatter
 
 
 def display_output(artist_id, token):
     results = get_artists_top_tracks(token, artist_id)
     artist_data = get_artists_data(token, artist_id)
+    st.session_state.artist_name = artist_data[0]
     st.title(f":green[{artist_data[0]}'s Top Albums]")
     albums_df = results[['album', 'release_date', 'album_id', 'album_image']].copy()
     albums_df.drop_duplicates(subset=['album'], inplace=True)
 
-    overall, individual_albums = get_artist_albums(token, albums_df['album_id'].tolist())
+    overall, individual_albums = get_artist_albums(token,
+                                                   albums_df['album_id'].tolist())
 
     albums_df = get_full_album_dataframe(albums_df, overall)
 

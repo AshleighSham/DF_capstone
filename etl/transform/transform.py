@@ -156,7 +156,7 @@ def clean_tracks(tracks: pd.DataFrame) -> pd.DataFrame:
     tracks['album_release_date'] = pd.to_datetime(tracks['album_release_date'],
                                                   errors='coerce')
     tracks['album_release_date'] = tracks['album_release_date'].dt.strftime(
-                                                    '%d/%m/%Y'
+                                                    '%Y/%m/%d'
                                                 )
 
     # drop rows with invalid dates

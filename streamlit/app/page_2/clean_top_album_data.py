@@ -1,5 +1,5 @@
 import pandas as pd
-from app.get_track_popularity import get_track_popularity
+from app.page_2.get_track_popularity import get_track_popularity
 
 
 def top_album_dataframe(response, token):

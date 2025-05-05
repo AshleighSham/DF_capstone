@@ -1,8 +1,8 @@
 import streamlit as st
-from app.page_3_output import display_output
+from app.page_4_output import display_output
 
-st.set_page_config(page_title="Artist Tracks in Top Songs from 1950 - 2024", page_icon="🎵", layout="wide")
-st.sidebar.title(":green[Artist Tracks in Top Songs from 1950 - 2024]")
+st.set_page_config(page_title="Top Songs from 1950 - 2024", page_icon="🎵", layout="wide")
+st.sidebar.title(":green[Top Songs from 1950 - 2024]")
 
 st.header(":green[Spotify Data Explorer]")
 st.write("---")
@@ -15,4 +15,4 @@ st.session_state.artist_name = st.session_state.artist_name
 st.session_state.artist_id = st.session_state.artist_id
 st.session_state.token = st.session_state.token
 
-display_output(st.session_state.artist_name, st.session_state.artist_id)
+display_output(st.session_state.artist_id)

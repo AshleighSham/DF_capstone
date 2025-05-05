@@ -1,7 +1,7 @@
 import streamlit as st
-from app.artist_top_tracks import get_artists_top_tracks
-from app.artist_data import get_artists_data
-from app.simple_scatter_plot import input_scatter_plot
+from app.page_1.artist_top_tracks import get_artists_top_tracks
+from app.page_1.artist_data import get_artists_data
+from app.page_1.scatter_plot import scatter_plot
 
 
 def display_output(artist_id, token):
@@ -25,4 +25,4 @@ def display_output(artist_id, token):
             st.write(f":green[**{track + 1}.**] {results.loc[track, 'name']} - *:gray[{results.loc[track, 'album']}]*")
 
     st.write("---")
-    input_scatter_plot(results)
+    scatter_plot(results)

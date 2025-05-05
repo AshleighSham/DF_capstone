@@ -1,5 +1,5 @@
 import requests
-from app.clean_top_album_data import top_album_dataframe
+from app.page_2.clean_top_album_data import top_album_dataframe
 import streamlit as st
 
 
