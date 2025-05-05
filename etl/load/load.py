@@ -10,6 +10,7 @@ from utils.db_utils import (
     DatabaseConnectionError,
     QueryExecutionError,
 )
+from etl.load.post_load_enrichment import enrich_database_data
 
 
 ROOT_DIR = "c:/Users/ashle/Documents/GitHub/DF_capstone"
@@ -44,6 +45,20 @@ def import_sql_query(filename):
 
 
 def load_data(data):
+
+    # Save data data to an SQL table in target database
+    load_table(data)
+
+    # Perform post-load enrichment of the data in the database
+    # This approach would be suitable if the end users want us
+    # to create a single table of the whole merged data and then
+    # provide some views on top of it
+    enrich_database_data()
+
+    return None
+
+
+def load_table(data):
     """
 
     Args:
@@ -61,7 +76,7 @@ def load_data(data):
     except ValueError:
         print("Target table exists")
         print("Upserting data into existing table instead")
-        set_primary_key(connection)
+        #set_primary_key(connection)
         upsert_on_existing_table(data, connection)
     except DatabaseConfigError as e:
         print(f"Target database not configured correctly: {e}")
