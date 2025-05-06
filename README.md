@@ -71,7 +71,7 @@ Like above, the Streamlit functionality also requires Spotify API access; the fi
 
 
 ## FAQ
-# How would you go about optimising query execution and performance if the dataset continues to increase?
-# What error handling and logging have you included in your code and how this could be leveraged?
-# Are there any security or privacy issues that you need to consider and how would you mitigate them?
-# How this project could be deployed or adapted into an automated cloud environment using the AWS services you have covered?
+### How would you go about optimising query execution and performance if the dataset continues to increase?
+### What error handling and logging have you included in your code and how this could be leveraged?
+### Are there any security or privacy issues that you need to consider and how would you mitigate them?
+### How this project could be deployed or adapted into an automated cloud environment using the AWS services you have covered?
