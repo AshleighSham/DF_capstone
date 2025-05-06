@@ -14,17 +14,17 @@ This Capstone Project was completed as part of my Data Engineering course with D
 
 This GitHub repository is organized into separate directories, each representing a different component of the project:
 
-- Data: contains the CSV of the chosen unclean dataset for the ['Top 10000 Songs on Spotify 1950-Now' by Joakim Arvidsson](https://www.kaggle.com/datasets/joebeachcapital/top-10000-spotify-songs-1960-now)
-- etl: Houses the ETL Pipeline.
-  - extract: holds the extract.py file
-  - load: holds the load.py and a post_laod_enrichment.py files
-  - sql: the sql queries used fr querying the sql database needed in loading
-  - transform: holds the transform.py file
-- Scripts: Holds the main run_etl.py file
-- Streamlit: Houses the streamlit application, run from within this directory with the command "streamlit run Home.py"
-- tests: Holds the tests for the ETL procresses and relevent functions
-- Utils: Hold files regarding general utilies for the different areas.
-- .env.dev, .env.test: two file containing the environment variables for testing and developement
+- **Data:** contains the CSV of the chosen unclean dataset for the ['Top 10000 Songs on Spotify 1950-Now' by Joakim Arvidsson](https://www.kaggle.com/datasets/joebeachcapital/top-10000-spotify-songs-1960-now)
+- **etl:** Houses the ETL Pipeline.
+  - **extract:** holds the extract.py file
+  - **load:** holds the load.py and a post_laod_enrichment.py files
+  - **sql:** the sql queries used fr querying the sql database needed in loading
+  - **transform:** holds the transform.py file
+- **Scripts:** Holds the main run_etl.py file
+- **Streamlit:** Houses the streamlit application, run from within this directory with the command "streamlit run Home.py"
+- **tests:** Holds the tests for the ETL procresses and relevent functions
+- **Utils:** Hold files regarding general utilies for the different areas.
+- **.env.dev, .env.test:** two file containing the environment variables for testing and developement
 
 ## Setting up the Sppotify API Compatibility
 
