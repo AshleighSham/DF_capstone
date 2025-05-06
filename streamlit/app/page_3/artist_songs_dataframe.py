@@ -5,7 +5,7 @@ from app.sql.artist_songs_in_top_songs import find_artist_songs
 def artist_songs_dataframe(conn, artist_id):
 
     df = conn.query(
-        "SELECT * FROM artists_track WHERE artist_id = :artist_id",
+        "SELECT * FROM c12de.as_artists_track WHERE artist_id = :artist_id",
         params={"artist_id": artist_id}
     )
 

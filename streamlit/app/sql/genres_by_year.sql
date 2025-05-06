@@ -14,4 +14,4 @@ SELECT
     novelty_count as "Novelty",
     easy_listening_count as "Easy Listening",
     cultural_count as "Cultural"
-FROM genres_by_year
+FROM c12de.as_genres_by_year
