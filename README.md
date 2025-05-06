@@ -4,17 +4,17 @@
 - [Project Overview](#project-overview)
 - [Repository Structure](#repository-structure)
 - [Setting up the Spotify API Compatibility](#setting-up-the-Spotify-API-Compatibility)
-- [Relevant References](#relevant-references)
+- [FAQ](#FAQ)
 
 ## Project Overview
 
-This Capstone Project was completed as part of my Data Engineering course with Digital Futures. It showcases the core data engineering skills taught throughout the program. The project implements an ETL (Extract, Transform, Load) pipeline, incorporates API usage, and presents the data through actionable visualisations.
+This Capstone Project was completed as part of my Data Engineering course with Digital Futures. It showcases the core data engineering skills taught throughout the program. The project implements an ETL (Extract, Transform, Load) pipeline, incorporates API usage, and presents the data through actionable visualisations. The project draws on two main data sources: Spotify’s API and a Kaggle dataset titled, ['Top 10000 Songs on Spotify 1950-Now' by Joakim Arvidsson](https://www.kaggle.com/datasets/joebeachcapital/top-10000-spotify-songs-1960-now). The Dataset is a collection of Spotify track information for high-ranking songs from the Australian Recording Industry Association and Billboard Charts. This dataset compiles Spotify track information for high-ranking songs based on the Australian Recording Industry Association and Billboard charts. Although some of Spotify’s more detailed APIs—such as those providing genre and audio features like tempo and valence—have since been deprecated, the dataset retains this information, offering valuable insight into musical trends over time and how these songs are perceived today. Combined with the Spotify Search API, the project also allows users to search for their favourite artists, explore their top songs and albums, and quickly check whether any tracks appear in the dataset.
 
 ## Repository Structure
 
 This GitHub repository is organised into separate directories, each representing a different component of the project:
 
-- **Data:** contains the CSV of the chosen unclean dataset for the ['Top 10000 Songs on Spotify 1950-Now' by Joakim Arvidsson](https://www.kaggle.com/datasets/joebeachcapital/top-10000-spotify-songs-1960-now)
+- **Data:** contains the CSV of the chosen dataset.
 - **etl:** Houses the ETL Pipeline.
   - **extract:** holds the extract.py file
   - **load:** holds the load.py and a post_laod_enrichment.py files
@@ -70,5 +70,8 @@ Like above, the Streamlit functionality also requires Spotify API access; the fi
 
 
 
-## Relevant References
-
+## FAQ
+# How would you go about optimising query execution and performance if the dataset continues to increase?
+# What error handling and logging have you included in your code and how this could be leveraged?
+# Are there any security or privacy issues that you need to consider and how would you mitigate them?
+# How this project could be deployed or adapted into an automated cloud environment using the AWS services you have covered?
