@@ -2,6 +2,9 @@
 
 - [Table of contents](#table-of-contents)
 - [Project Overview](#project-overview)
+- [Objectives](#objectives)
+- [Planning](#planning)
+- [User Stories](#user-stories)
 - [Repository Structure](#repository-structure)
 - [Setting up the Spotify API Compatibility](#setting-up-the-Spotify-API-Compatibility)
 - [FAQ](#FAQ)
@@ -9,6 +12,25 @@
 ## Project Overview
 
 This Capstone Project was completed as part of my Data Engineering course with Digital Futures. It showcases the core data engineering skills taught throughout the program. The project implements an ETL (Extract, Transform, Load) pipeline, incorporates API usage, and presents the data through actionable visualisations. The project draws on two main data sources: Spotify’s API and a Kaggle dataset titled, ['Top 10000 Songs on Spotify 1950-Now' by Joakim Arvidsson](https://www.kaggle.com/datasets/joebeachcapital/top-10000-spotify-songs-1960-now). The Dataset is a collection of Spotify track information for high-ranking songs from the Australian Recording Industry Association and Billboard Charts. This dataset compiles Spotify track information for high-ranking songs based on the Australian Recording Industry Association and Billboard charts. Although some of Spotify’s more detailed APIs—such as those providing genre and audio features like tempo and valence—have since been deprecated, the dataset retains this information, offering valuable insight into musical trends over time and how these songs are perceived today. Combined with the Spotify Search API, the project also allows users to search for their favourite artists, explore their top songs and albums, and quickly check whether any tracks appear in the dataset.
+
+## Objectives
+- Build a robust ETL Pipeline to process a CSV of Spotify data.
+- Create an interactive Streamlit app that aids insights through appropriate visualisations.
+- Implement good testing practices to ensure high-quality code.
+
+## Planning
+1. Set up the relevant environments and PostgreSQL databases
+2. Build sufficent tests for the ETL pipeline
+3. Implement Data Extraction for the dataset and API's
+4. Transform and standardise the data
+5. Build a streamlit app for data visualisations compatible with the API directly and the Postgresql
+
+## User Stories
+- As a Data Engineer, I want to extract live data from Spotify API's for relevant analysis.
+- As a Data Engineer, I want to transform and standardise the dataset for accurate analysis.
+- As a Data Engineer, I want to load the data into a PostgreSQL database so that it can be easily queried.
+- As a Data Analyst, I want to view an Artist's Top track and Albums because I'm nosy.
+- Aa a Data Analyst, I want to be able to filter data by year, genre or popularity so I can draw specific insights.
 
 ## Repository Structure
 
@@ -67,7 +89,6 @@ Like above, the Streamlit functionality also requires Spotify API access; the fi
 
 
 ## Setting up your Postgresql database
-
 
 
 ## FAQ
