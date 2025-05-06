@@ -1,4 +1,4 @@
-CREATE OR REPLACE VIEW genres_by_year AS
+CREATE OR REPLACE VIEW as_genres_by_year AS
 SELECT
     DATE_PART('year', album_release_date) AS album_year,
     COUNT(pop) FILTER(WHERE pop) AS pop_count,

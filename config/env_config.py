@@ -46,8 +46,8 @@ def cleanup_previous_env():
     """
 
     keys_to_clear = [
-        'TARGET_DB_NAME', 'TARGET_DB_USER', 'TARGET_DB_PASSWORD',
-        'TARGET_DB_HOST', 'TARGET_DB_PORT'
+        "TARGET_DB_SCHEMA", 'TARGET_DB_NAME', 'TARGET_DB_USER',
+        'TARGET_DB_PASSWORD', 'TARGET_DB_HOST', 'TARGET_DB_PORT'
     ]
 
     for key in keys_to_clear:

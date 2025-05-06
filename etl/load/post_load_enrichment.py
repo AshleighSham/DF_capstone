@@ -61,9 +61,15 @@ def create_views():
             sql = import_sql_query(os.path.join(QUERY_PATH, query_file))
             executable_sql = text(sql)
             connection_details = load_db_config()["target_database"]
+            schema = connection_details.get("dbschema", "public")
+
             engine = create_db_engine(connection_details)
             Session = sessionmaker(bind=engine)
             session = Session()
+
+            # Set the schema for the session
+            session.execute(text(f"SET search_path TO {schema}"))
+
             session.execute(
                 executable_sql
             )

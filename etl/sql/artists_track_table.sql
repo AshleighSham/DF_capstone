@@ -1,4 +1,4 @@
-CREATE OR REPLACE VIEW artists_track AS
+CREATE OR REPLACE VIEW as_artists_track AS
 SELECT
     track_id,
     UNNEST(STRING_TO_ARRAY(artist_id, ',')) AS artist_id
