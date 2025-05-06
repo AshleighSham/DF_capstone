@@ -1,6 +1,6 @@
 CREATE OR REPLACE VIEW genres_by_year AS
 SELECT
-    DATE_PART('year', TO_DATE(album_release_date, 'DD/MM/YYY')) AS album_year,
+    DATE_PART('year', album_release_date) AS album_year,
     COUNT(pop) FILTER(WHERE pop) AS pop_count,
     COUNT(rock) FILTER(WHERE rock) AS rock_count,
     COUNT(hip_hop) FILTER(WHERE hip_hop) AS hip_hop_count,

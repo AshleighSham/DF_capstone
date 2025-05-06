@@ -7,9 +7,10 @@ from utils.transform_utils import (
     genre_dict
 )
 from utils.api_utils import AuthenticateSpotify
+from etl.extract.extract import extract_data
 
 
-def transform_data(tracks: pd.DataFrame) -> pd.DataFrame:
+def transform_data(tracks: pd.DataFrame, state: str) -> pd.DataFrame:
     """
     Transforms the input DataFrame of tracks by performing a series of
     cleaning, formatting, and enrichment operations
@@ -29,9 +30,16 @@ def transform_data(tracks: pd.DataFrame) -> pd.DataFrame:
     # removie missing values
     tracks = remove_missing_values(tracks)
 
-    # update the popularities
-    tracks.reset_index(drop=True, inplace=True)
-    tracks = update_data(tracks, AuthenticateSpotify())
+    if state == 'new':
+        # update the popularities from API
+        tracks.reset_index(drop=True, inplace=True)
+        tracks = update_API_data(tracks, AuthenticateSpotify())
+
+    elif state == 'old':
+        # update the popularities from past csv
+        filepath = "../../data/clean/transformed_data.csv"
+        tracks = update_data(tracks, filepath)
+
     tracks = tracks.dropna(subset=['popularity'])
 
     # add columns for cleaner genre for the lols
@@ -54,7 +62,8 @@ def format_column_names(tracks: pd.DataFrame) -> pd.DataFrame:
     return tracks
 
 
-def update_data(dataframe: pd.DataFrame, token) -> pd.DataFrame:
+def update_API_data(dataframe: pd.DataFrame, token) -> pd.DataFrame:
+    raise "Oopsie"
     """
     Updates the 'popularity' column in the given DataFrame by fetching data
     from an external API using track IDs and ISRC codes.
@@ -155,9 +164,7 @@ def clean_tracks(tracks: pd.DataFrame) -> pd.DataFrame:
     # standardise date format
     tracks['album_release_date'] = pd.to_datetime(tracks['album_release_date'],
                                                   errors='coerce')
-    tracks['album_release_date'] = tracks['album_release_date'].dt.strftime(
-                                                    '%Y/%m/%d'
-                                                )
+    #tracks['album_release_date'] = tracks['album_release_date'].dt.strftime('%Y/%m/%d')
 
     # drop rows with invalid dates
     tracks = tracks.dropna(subset=['album_release_date'])
@@ -226,5 +233,25 @@ def simplify_and_expand_artist_genres(tracks):
 
     tracks['genre_count'] = tracks[genres.keys()].sum(axis=1)
     tracks = tracks.drop(columns=['artist_genres'])
+
+    return tracks
+
+
+def update_data(tracks, filepath):
+
+    new_pop_data = extract_data(file=filepath)
+
+    # Create a mapping of ISRC to popularity
+    new_pop_data_map = dict(zip(new_pop_data['track_id'],
+                                new_pop_data['popularity']))
+
+    tracks.set_index('track_id')
+    for idx in tracks:
+        if idx in new_pop_data_map:
+            tracks.loc[idx, 'popularity'] = new_pop_data_map[
+                        idx
+                    ]
+        else:
+            tracks.loc[idx, 'popularity'] = pd.NA
 
     return tracks

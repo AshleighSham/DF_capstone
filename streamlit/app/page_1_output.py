@@ -27,7 +27,7 @@ def display_output(artist_id, token):
         for track in range(len(results)):
             st.write(
                 f":green[**{track + 1}.**] {results.loc[track, 'name']} - "
-                f"*:gray[{results.loc[track, 'album']}] *"
+                f"*:gray[{results.loc[track, 'album']}]*"
             )
 
     st.write("---")

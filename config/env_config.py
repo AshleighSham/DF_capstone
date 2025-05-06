@@ -13,7 +13,7 @@ def setup_env(argv):
     os.chdir("c:/Users/ashle/Documents/GitHub/DF_capstone")
 
     # check if environment was provided if not raise error
-    if len(argv) != 2 or argv[1] not in ENVS:
+    if len(argv) != 3 or argv[1] not in ENVS:
         raise ValueError(
             'Please provide an environment: '
             f'{ENVS}. E.g. run_etl dev'
