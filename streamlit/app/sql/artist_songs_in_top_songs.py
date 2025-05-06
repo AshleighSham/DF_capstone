@@ -8,7 +8,7 @@ def find_artist_songs(artist_id):
                 UNNEST(string_to_array(artist_id, ',')) AS artist_id,
                 as_capstone.track_id
             FROM
-                as_capstone
+                c12de.as_capstone
             WHERE artist_id = '{artist_id}'
         )
     SELECT
@@ -22,6 +22,6 @@ def find_artist_songs(artist_id):
         explicit,
         popularity,
         album_image_url
-    FROM as_capstone
-        inner JOIN artist_songs ON as_capstone.track_id = artist_songs.track_id;"""
+    FROM c12de.as_capstone
+    INNER JOIN artist_songs ON as_capstone.track_id = artist_songs.track_id;"""
     return query

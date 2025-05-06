@@ -1,19 +1,19 @@
-CREATE OR REPLACE VIEW properties_by_year AS
+CREATE OR REPLACE VIEW as_properties_by_year AS
 SELECT
-	DATE_PART('YEAR', TO_DATE(ALBUM_RELEASE_DATE, 'DD/MM/YYY')) AS ALBUM_YEAR,
-	AVG(DANCEABILITY) AS AVG_DANCEABILITY,
-	AVG(ENERGY) AS AVG_ENERGY,
-	AVG(KEY) AS AVG_KEY,
-	AVG(LOUDNESS) AS AVG_LOUDNESS,
-	AVG(SPEECHINESS) AS AVG_SPEECHINESS,
-	AVG(ACOUSTICNESS) AS AVG_ACOUSTICNESS,
-	AVG(INSTRUMENTALNESS) AS AVG_INSTRUMENTALNESS,
-	AVG(LIVENESS) AS AVG_LIVENESS,
-	AVG(VALENCE) AS AVG_VALENCE,
-	AVG(TEMPO) AS AVG_TEMPO
+    DATE_PART('YEAR', album_release_date) AS album_year,
+    AVG(danceability) AS avg_danceability,
+    AVG(energy) AS avg_energy,
+    AVG(key) AS avg_key,
+    AVG(loudness) AS avg_loudness,
+    AVG(speechiness) AS avg_speechiness,
+    AVG(acousticness) AS avg_acousticness,
+    AVG(instrumentalness) AS avg_instrumentalness,
+    AVG(liveness) AS avg_liveness,
+    AVG(valence) AS avg_valence,
+    AVG(tempo) AS avg_tempo
 FROM
-	AS_CAPSTONE
+    as_capstone
 GROUP BY
-	ALBUM_YEAR
+    album_year
 ORDER BY
-	ALBUM_YEAR;
+    album_year;

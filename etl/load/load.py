@@ -69,14 +69,25 @@ def load_table(data):
     try:
         connection_details = load_db_config()["target_database"]
         connection = get_db_connection(connection_details)
-        data.to_sql(
-            TARGET_TABLE_NAME, connection, if_exists="fail", index=False
-        )
-        set_primary_key(connection)
+
+        schema = connection_details.get("dbschema", "public")
+
+        with connection.begin():
+            # Set the schema for the session
+            connection.execute(text(f"SET search_path TO {schema}"))
+
+            # Load data into the table
+            data.to_sql(
+                TARGET_TABLE_NAME, connection, if_exists="fail", index=False
+            )
+
+            # Set the primary key
+            set_primary_key(connection)
+
     except ValueError:
         print("Target table exists")
         print("Upserting data into existing table instead")
-        #set_primary_key(connection)
+        # set_primary_key(connection)
         upsert_on_existing_table(data, connection)
     except DatabaseConfigError as e:
         print(f"Target database not configured correctly: {e}")
@@ -97,13 +108,15 @@ def load_table(data):
 
 def upsert_on_existing_table(data: pd.DataFrame, connection):
     """
-
-    Args:
-
-    Returns:
-
+    Upsert data into an existing table
     """
     try:
+        connection_details = load_db_config()["target_database"]
+        schema = connection_details.get("dbschema", "public")  # Default to 'public'
+
+        # Set the schema for the session
+        connection.execute(text(f"SET search_path TO {schema}"))
+
         data_dict = data.to_dict(orient="records")
 
         # Reflect the table from the database
@@ -156,10 +169,8 @@ def set_primary_key(connection):
     )
     executable_sql = text(create_primary_key_query)
     try:
-        with connection.begin():
-            connection.execute(executable_sql)
-            print("Primary key set on target table")
-            connection.commit()
+        connection.execute(executable_sql)
+        print("Primary key set on target table")
     except Exception as e:
         print(f"Error setting primary key on target table: {e}")
         raise

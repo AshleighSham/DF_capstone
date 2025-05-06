@@ -1,6 +1,6 @@
-CREATE OR REPLACE VIEW artists_track AS
+CREATE OR REPLACE VIEW as_artists_track AS
 SELECT
-    UNNEST(string_to_array(artist_id, ',')) AS artist_id,
-    track_id
+    track_id,
+    UNNEST(STRING_TO_ARRAY(artist_id, ',')) AS artist_id
 FROM
     as_capstone;

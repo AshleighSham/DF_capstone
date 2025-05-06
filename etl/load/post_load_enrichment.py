@@ -7,7 +7,7 @@ from utils.sql_utils import import_sql_query
 
 
 ROOT_DIR = "c:/Users/ashle/Documents/GitHub/DF_capstone"
-#INDEXES_PATH = os.path.join(ROOT_DIR, 'etl', 'sql', 'indexes')
+# INDEXES_PATH = os.path.join(ROOT_DIR, 'etl', 'sql', 'indexes')
 QUERY_PATH = os.path.join(ROOT_DIR, 'etl', 'sql')
 
 QUERY_FILE_NAMES = {
@@ -61,9 +61,15 @@ def create_views():
             sql = import_sql_query(os.path.join(QUERY_PATH, query_file))
             executable_sql = text(sql)
             connection_details = load_db_config()["target_database"]
+            schema = connection_details.get("dbschema", "public")
+
             engine = create_db_engine(connection_details)
             Session = sessionmaker(bind=engine)
             session = Session()
+
+            # Set the schema for the session
+            session.execute(text(f"SET search_path TO {schema}"))
+
             session.execute(
                 executable_sql
             )

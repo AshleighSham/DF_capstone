@@ -15,8 +15,14 @@ def individual_album_scatter(individual_albums, album_name):
 
 
 def all_album_scatter(individual_albums, album_name, albums_df):
-    results = {'album_id': [], 'album': [], 'name': [],
-               'duration_ms': [], 'explicit': [], 'popularity': [], 'release_date': []}
+    results = {'album_id': [],
+               'album': [],
+               'name': [],
+               'duration_ms': [],
+               'explicit': [],
+               'popularity': [],
+               'release_date': []}
+
     results = pd.DataFrame(results)
     for album_id in individual_albums:
         data = individual_albums[album_id][['name',
@@ -85,7 +91,9 @@ def not_so_simple_scatter_plot(results):
                    "duration_ms": "Duration (min)",
                    "explicit": "Explicit"}
 
-        st.subheader(f":green[Top Tracks Across Albums {axis[0]} vs {axis[1]}]")
+        st.subheader(
+            f":green[Top Tracks Across Albums {axis[0]} vs {axis[1]}]"
+        )
 
         fig = px.scatter(results, x=labels1[axis[0]], y=labels1[axis[1]],
                          color="album", hover_name="name",
