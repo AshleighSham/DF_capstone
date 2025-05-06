@@ -36,16 +36,16 @@ This Capstone Project was completed as part of my Data Engineering course with D
 
 This GitHub repository is organised into separate directories, each representing a different component of the project:
 
-- **Data:** contains the CSV of the chosen dataset.
+- **data:** contains the CSV of the chosen dataset.
 - **etl:** Houses the ETL Pipeline.
   - **extract:** holds the extract.py file
   - **load:** holds the load.py and a post_laod_enrichment.py files
   - **sql:** the SQL queries used fr querying the SQL database needed for loading
   - **transform:** holds the transform.py file
-- **Scripts:** Holds the main run_etl.py file
-- **Streamlit:** Houses the streamlit application, run from within this directory with the command "streamlit run Home.py"
+- **scripts:** Holds the main run_etl.py file
+- **streamlit:** Houses the streamlit application, run from within this directory with the command "streamlit run Home.py"
 - **tests:** Holds the tests for the ETL processes and relevant functions
-- **Utils:** Hold files regarding general utilities for the different areas.
+- **utils:** Hold files regarding general utilities for the different areas.
 - **.env.dev, .env.test:** two files containing the environment variables for testing and development
 
 ## Setting up the Spotify API Compatibility
