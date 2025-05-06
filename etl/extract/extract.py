@@ -6,8 +6,8 @@ import timeit
 FILE_PATH = os.path.join(
     os.path.dirname(__file__), '../../data/raw/top_10000_1960-now.csv'
 )
-
 TYPE = 'TRACKS from CSV'
+EXPECTED_PERFORMANCE = 0.001
 
 
 def extract_data(file=None) -> pd.DataFrame:
@@ -24,7 +24,6 @@ def extract_data(file=None) -> pd.DataFrame:
         file_path = FILE_PATH
 
         if file is not None:
-            print('yay')
             file_path = os.path.join(
                             os.path.dirname(__file__), file
                         )

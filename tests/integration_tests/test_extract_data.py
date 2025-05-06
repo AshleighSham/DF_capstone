@@ -5,7 +5,7 @@ from etl.extract.extract import (
 import timeit
 
 
-def test_extract_daat_returns_all_data():
+def test_extract_data_returns_all_data():
     expected_shape = (9999, 35)
     # Call the function to get the DataFrame
     df = extract_data()
