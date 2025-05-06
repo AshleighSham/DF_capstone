@@ -14,7 +14,8 @@ with st.sidebar:
     st.write("**:green[Liveness]:** Detects the presence of an audience in the recording. A value above 0.8 provides strong likelihood that the track is live.")
     st.write("**:green[Valence]:** A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track.")
     st.write("**:green[Tempo]:** The overall estimated tempo of a track in beats per minute (BPM).")
-    
+
+    st.link_button(":green[Got to Spotify Audio Features API]", "https://developer.spotify.com/documentation/web-api/reference/get-audio-features")
 st.header(":green[Spotify Data Explorer]")
 st.write("---")
 

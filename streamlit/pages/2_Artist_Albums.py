@@ -3,7 +3,9 @@ import streamlit as st
 
 st.set_page_config(page_title="Artist Top Albums", page_icon="🎵", layout="wide")
 st.sidebar.title(":green[Artist Top Albums]")
-
+with st.sidebar:
+    st.link_button(":green[Go to Spotify's Get Several Ablums API]", "https://developer.spotify.com/documentation/web-api/reference/get-multiple-albums")
+    st.link_button(":green[Go to Spotify's Get Several Tracks API]", "https://developer.spotify.com/documentation/web-api/reference/get-several-tracks")
 st.header(":green[Spotify Data Explorer]")
 st.write("---")
 # Check if session_state contains the required attributes
