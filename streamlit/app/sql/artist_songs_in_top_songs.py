@@ -23,5 +23,5 @@ def find_artist_songs(artist_id):
         popularity,
         album_image_url
     FROM as_capstone
-        inner JOIN artist_songs ON as_capstone.track_id = artist_songs.track_id;"""
+    INNER JOIN artist_songs ON as_capstone.track_id = artist_songs.track_id;"""
     return query

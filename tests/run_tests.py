@@ -1,6 +1,7 @@
 import os
 import sys
 import subprocess
+sys.path.append('../')
 from config.env_config import setup_env
 
 # Define test directories and corresponding coverage targets

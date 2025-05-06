@@ -15,11 +15,18 @@ def display_output(artist_id, token):
     artist_data = get_artists_data(token, artist_id)
     st.session_state.artist_name = artist_data[0]
     st.title(f":green[{artist_data[0]}'s Top Albums]")
-    albums_df = results[['album', 'release_date', 'album_id', 'album_image']].copy()
+
+    albums_df = results[['album',
+                         'release_date',
+                         'album_id',
+                         'album_image']].copy()
+
     albums_df.drop_duplicates(subset=['album'], inplace=True)
 
-    overall, individual_albums = get_artist_albums(token,
-                                                   albums_df['album_id'].tolist())
+    overall, individual_albums = get_artist_albums(
+        token,
+        albums_df['album_id'].tolist()
+    )
 
     albums_df = get_full_album_dataframe(albums_df, overall)
 
@@ -33,10 +40,16 @@ def display_output(artist_id, token):
 
     st.write("---")
     st.title(":green[Album Data]")
-    option = st.selectbox("Select an album", options=list(album_names.values()), key="album_select")
-    album_id = [key for key, value in album_names.items() if value == option][0]
+    option = st.selectbox("Select an album",
+                          options=list(album_names.values()),
+                          key="album_select")
 
-    space1, col1, space2, col2 = st.columns([1, 4, 1, 8], vertical_alignment="center")
+    album_id = [
+        key for key, value in album_names.items() if value == option
+    ][0]
+
+    space1, col1, space2, col2 = st.columns([1, 4, 1, 8],
+                                            vertical_alignment="center")
     with col1:
         if len(individual_albums[album_id]) < 10:
             width = 35 * 10 + 38
@@ -46,4 +59,5 @@ def display_output(artist_id, token):
     with col2:
         display_individual_album_dataframe(individual_albums, album_id)
 
-    individual_album_scatter(individual_albums[album_id], album_names[album_id])
+    individual_album_scatter(individual_albums[album_id],
+                             album_names[album_id])

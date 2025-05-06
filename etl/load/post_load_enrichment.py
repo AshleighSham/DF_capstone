@@ -7,7 +7,7 @@ from utils.sql_utils import import_sql_query
 
 
 ROOT_DIR = "c:/Users/ashle/Documents/GitHub/DF_capstone"
-#INDEXES_PATH = os.path.join(ROOT_DIR, 'etl', 'sql', 'indexes')
+# INDEXES_PATH = os.path.join(ROOT_DIR, 'etl', 'sql', 'indexes')
 QUERY_PATH = os.path.join(ROOT_DIR, 'etl', 'sql')
 
 QUERY_FILE_NAMES = {

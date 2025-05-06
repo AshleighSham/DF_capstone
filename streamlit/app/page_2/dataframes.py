@@ -19,12 +19,18 @@ def display_albums_dataframe(albums_df):
                       'label',
                       'popularity']]
 
-    st.dataframe(data, hide_index=True, height=35*len(data)+38,
-                 column_config={'album': 'Album Name',
-                                'total_tracks': 'Total Tracks',
-                                'release_date': st.column_config.DateColumn('Release Date'),
-                                'popularity': 'Popularity (0-100)',
-                                'label': 'Label'})
+    st.dataframe(
+        data,
+        hide_index=True,
+        height=35*len(data)+38,
+        column_config={
+            'album': 'Album Name',
+            'total_tracks': 'Total Tracks',
+            'release_date': st.column_config.DateColumn('Release Date'),
+            'popularity': 'Popularity (0-100)',
+            'label': 'Label'
+            }
+        )
 
 
 def display_individual_album_dataframe(individual_albums, album_id):
@@ -35,10 +41,17 @@ def display_individual_album_dataframe(individual_albums, album_id):
                                         'explicit',
                                         'popularity']]
 
-    st.dataframe(data, hide_index=True, height=35*len(data)+38,
-                 column_config={'disc_number': 'Disc Number',
-                                'track_number': 'Track Number',
-                                'name': 'Track Name',
-                                'duration_ms': st.column_config.TimeColumn('Duration (min)', format="mm:ss"),
-                                'explicit': st.column_config.TextColumn('Explicit'),
-                                'popularity': 'Popularity (0- 100)'})
+    st.dataframe(
+        data,
+        hide_index=True,
+        height=35*len(data)+38,
+        column_config={
+            'disc_number': 'Disc Number',
+            'track_number': 'Track Number',
+            'name': 'Track Name',
+            'duration_ms': st.column_config.TimeColumn('Duration (min)',
+                                                       format="mm:ss"),
+            'explicit': st.column_config.TextColumn('Explicit'),
+            'popularity': 'Popularity (0- 100)'
+            }
+        )

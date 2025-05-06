@@ -76,7 +76,7 @@ def load_table(data):
     except ValueError:
         print("Target table exists")
         print("Upserting data into existing table instead")
-        #set_primary_key(connection)
+        # set_primary_key(connection)
         upsert_on_existing_table(data, connection)
     except DatabaseConfigError as e:
         print(f"Target database not configured correctly: {e}")

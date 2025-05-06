@@ -1,12 +1,25 @@
 import streamlit as st
 from app.page_1_output import display_output
 
+bl1 = (
+    "https://developer.spotify.com/documentation/"
+    "web-api/reference/get-an-artist"
+)
 
-st.set_page_config(page_title="Artist Top Tracks", page_icon="🎵", layout="wide")
+bl2 = (
+    "https://developer.spotify.com/documentation/web-api/"
+    "reference/get-an-artists-top-tracks"
+)
+st.set_page_config(page_title="Artist Top Tracks",
+                   page_icon="🎵",
+                   layout="wide")
+
 st.sidebar.title(":green[Artist Top Tracks]")
 with st.sidebar:
-    st.link_button(":green[Go to Spotify's Get Artist API]", "https://developer.spotify.com/documentation/web-api/reference/get-an-artist")
-    st.link_button(":green[Go to Spotify's Get Artist's Top Tracks API]", 'https://developer.spotify.com/documentation/web-api/reference/get-an-artists-top-tracks')
+    st.link_button(":green[Go to Spotify's Get Artist API]",
+                   bl1)
+    st.link_button(":green[Go to Spotify's Get Artist's Top Tracks API]",
+                   bl2)
 st.header(":green[Spotify Data Explorer]")
 st.write("---")
 # Check if session_state contains the required attributes

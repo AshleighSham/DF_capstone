@@ -11,6 +11,12 @@ title_alignment = """
 </style>
 """
 
+imag = (
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/"
+    "Spotify_icon.svg/512px-Spotify_icon.svg.png?20220821125323"
+)
+b_link = "https://developer.spotify.com/documentation/web-api/reference/search"
+
 
 def main():
     """Main function to run the Streamlit app."""
@@ -24,11 +30,12 @@ def main():
 
     st.sidebar.title(":green[Spotify Data Explorer]")
     with st.sidebar:
-        st.link_button(":green[Go to Spotify's Search API]", "https://developer.spotify.com/documentation/web-api/reference/search")
+        st.link_button(":green[Go to Spotify's Search API]",
+                       b_link)
 
     col1, col2, col3 = st.columns([2, 1, 2])
     with col2:
-        st.image('https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Spotify_icon.svg/512px-Spotify_icon.svg.png?20220821125323')
+        st.image(imag)
     st.title(":green[Spotify Data Explorer]")
     st.subheader(":green[by Ashleigh Shambrook]")
 
