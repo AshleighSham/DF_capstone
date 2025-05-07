@@ -7,6 +7,7 @@
 - [User Stories](#user-stories)
 - [Repository Structure](#repository-structure)
 - [Setting up the Spotify API Compatibility](#setting-up-the-Spotify-API-Compatibility)
+- [Setting up your Postgresql database](#setting-up-your-postgresql-database)
 - [FAQ](#FAQ)
 
 ## Project Overview
