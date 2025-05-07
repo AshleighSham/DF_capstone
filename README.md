@@ -106,7 +106,7 @@ Files required by the user to add are marked with *
 
 ## Setting up the Spotify API Compatibility
 
-To run the ETL pipeline, a functioning Spotify developer app and its relevant details are required. [Instructions on setting one up can be found here](https://developer.spotify.com/documentation/web-api). The Client ID and Client Secret are for the api to be used; these need to be placed within the utils directory in a file called api_utils.py.
+To run the ETL pipeline, a functioning Spotify developer app and its relevant details are required. [Instructions on setting one up can be found here](https://developer.spotify.com/documentation/web-api). The Client ID and Client Secret are for the api to use; the code below needs to be placed within utils/api_utils.py and streamlit/app/spotify_auth.py.
 
 ```python
 import requests
@@ -141,11 +141,29 @@ def AuthenticateSpotify():
     access_token = response.json().get("access_token")
     return access_token
 ```
-Like above, the Streamlit functionality also requires Spotify API access; the file must be added to the streamlit/app directory under the name spotify_auth.py, containing the same code as above.
-
 
 ## Setting up your Postgresql database
 
+For the ETL pipeline to connect to your PostgreSQL database, the below code needs to be added into the relevant .env files in the root directory.
+```env
+# Target Database Configuration
+TARGET_DB_SCHEMA={schema name}
+TARGET_DB_NAME={database name}
+TARGET_DB_USER={username}
+TARGET_DB_PASSWORD={password if required else leave blank}
+TARGET_DB_HOST={host}
+TARGET_DB_PORT={port}
+```
+
+And for the streamlit app to access the data loaded into the PostgreSQL database, the following code needs to be added to streamlit/.streamlit/secrets.toml.
+```toml
+[connections.sql]
+dialect = "postgresql"
+database = "{database name}"
+host = "{host}"
+username = "{username}"
+password = "{password}"
+```
 
 ## FAQ
 ### How would you go about optimising query execution and performance if the dataset continues to increase?
