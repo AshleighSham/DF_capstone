@@ -48,7 +48,8 @@ This GitHub repository is organised into separate directories, each representing
 - **utils:** Hold files regarding general utilities for the different areas.
 - **.env.dev, .env.test:** two files containing the environment variables for testing and development
 
-  config/
+```
+config/
 ├─ env_config.py
 ├─ db_config.py
 data/
@@ -82,7 +83,11 @@ utils/
 ├─ transform_utils.py
 ├─ sql_utils.py
 ├─ db_utils.py
-
+*.env.test*
+*.env.dev*
+*.env*
+```
+[Tree maker](https://ascii-tree-generator.com/)
 
 ## Setting up the Spotify API Compatibility
 
