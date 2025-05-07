@@ -165,6 +165,7 @@ notebooks/gitignore/*
 # api confidential files
 utils/api_utils.py
 streamlit/app/spotify_auth.py
+streamlit/.streamlit/secrets.toml
 
 #working files
 data/workbook.ipynb
