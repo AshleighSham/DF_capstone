@@ -168,3 +168,7 @@ streamlit/app/spotify_auth.py
 
 #working files
 data/workbook.ipynb
+etl/transform/utils.py
+data/test.ipynb
+streamlit/app/spotify_auth.py
+streamlit/.streamlit/secrets.toml
