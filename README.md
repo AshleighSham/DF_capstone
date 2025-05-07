@@ -48,6 +48,42 @@ This GitHub repository is organised into separate directories, each representing
 - **utils:** Hold files regarding general utilities for the different areas.
 - **.env.dev, .env.test:** two files containing the environment variables for testing and development
 
+  config/
+├─ env_config.py
+├─ db_config.py
+data/
+├─ raw/
+│  ├─ top_10000_1960-now.csv
+├─ clean/
+│  ├─ transformed_data.csv
+etl/
+├─ extract/
+│  ├─ extract.py
+├─ transform/
+│  ├─ transform.py
+├─ load/
+│  ├─ load.py
+│  ├─ post_load_enrichment.py
+├─ sql/
+│  ├─ artists_track_table.sql
+│  ├─ genres_by_year.sql
+│  ├─ properties_by_year.sql
+│  ├─ set_primary_key.sql
+scripts/
+├─ run_etl.py
+streamlit/
+tests/
+├─ component_tests/
+├─ integration_tests/
+├─ unit_tests/
+├─ run_tests.py
+utils/
+├─ *api_utils.py*
+├─ transform_utils.py
+├─ sql_utils.py
+├─ db_utils.py
+
+
 ## Setting up the Spotify API Compatibility
 
 To run the ETL pipeline, a functioning Spotify developer app and its relevant details are required. [Instructions on setting one up can be found here](https://developer.spotify.com/documentation/web-api). The Client ID and Client Secret are for the api to be used; these need to be placed within the utils directory in a file called api_utils.py.
