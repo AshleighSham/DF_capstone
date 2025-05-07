@@ -112,7 +112,8 @@ def upsert_on_existing_table(data: pd.DataFrame, connection):
     """
     try:
         connection_details = load_db_config()["target_database"]
-        schema = connection_details.get("dbschema", "public")  # Default to 'public'
+        schema = connection_details.get("dbschema", "public")  
+        # Default to 'public'
 
         # Set the schema for the session
         connection.execute(text(f"SET search_path TO {schema}"))
