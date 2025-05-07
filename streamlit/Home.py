@@ -1,5 +1,19 @@
 import streamlit as st
 from app.artist_search import get_artist_id
+from app.page_1.artist_data import get_artists_data
+import time
+
+_LOREM_IPSUM = """
+Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+"""
+
+
+def stream_data(text):
+    for word in text.split(" "):
+        yield word + " "
+        time.sleep(0.05)
 
 
 title_alignment = """
@@ -40,16 +54,21 @@ def main():
     st.subheader(":green[by Ashleigh Shambrook]")
 
     with st.form(key="artist_form"):
-        st.write("Choose your fighter!")
+        st.write("Choose your fighter! :muscle:")
         artist_name = st.text_input("Type an artist",
                                     'Mitski',
                                     key="artist_name")
-        st.form_submit_button("Submit")
+        if st.form_submit_button("Submit"):
+            token, artist_id = get_artist_id(artist_name)
 
-    token, artist_id = get_artist_id(artist_name)
+            artist_name = get_artists_data(token, artist_id)[0]
+            st.session_state.artist_id = artist_id
+            st.session_state.token = token
 
-    st.session_state.artist_id = artist_id
-    st.session_state.token = token
+            st.write(stream_data(("...collecting data for suggested artist "
+                                  f"**{artist_name}**, if this is not the "
+                                  "Artist you were looking for please "
+                                  "double check your spelling")))
 
 
 if __name__ == "__main__":

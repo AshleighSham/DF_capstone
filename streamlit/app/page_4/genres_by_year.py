@@ -1,6 +1,6 @@
 import os
 from app.sql_utils import import_sql_query
-from app.page_4.line_plot import bar_graph
+from app.page_4.plots import bar_graph
 import streamlit as st
 import pandas as pd
 

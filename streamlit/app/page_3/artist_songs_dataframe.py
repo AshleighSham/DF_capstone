@@ -11,7 +11,8 @@ def artist_songs_dataframe(conn, artist_id, artist_name):
 
     if df.empty:
         st.error(
-            "No tracks found in the top songs (1950-2024) :( Try again!"
+            ("No tracks found in the top songs (1950-2024) by "
+             "this artist :( Try again!")
         )
     else:
         st.title(

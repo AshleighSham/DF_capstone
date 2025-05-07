@@ -1,7 +1,7 @@
 import streamlit as st
-from app.page_4_output import display_output
+from app.page_5_output import display_output
 
-st.set_page_config(page_title="Top Songs from 1950 - 2024",
+st.set_page_config(page_title="Track Feature Trends from 1950 - 2024",
                    page_icon="🎵",
                    layout="wide")
 
@@ -10,7 +10,12 @@ bl1 = (
     "reference/get-audio-features"
 )
 
-st.sidebar.title(":green[Top Songs from 1950 - 2024]")
+bl2 = (
+    "https://www.kaggle.com/datasets/joebeachcapital/"
+    "top-10000-spotify-songs-1960-now"
+    )
+
+st.sidebar.title(":green[Track Feature Trends from 1950 - 2024]")
 with st.sidebar:
     features = {
         "Danceability": (
@@ -53,6 +58,8 @@ with st.sidebar:
         st.write(f"**:green[{feature}]:** {description}")
 
     st.link_button(":green[Got to Spotify Audio Features API]", bl1)
+    st.link_button(":green[Go to Kaggle Dataset]", bl2)
+
 st.header(":green[Spotify Data Explorer]")
 st.write("---")
 

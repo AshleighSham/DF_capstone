@@ -1,6 +1,7 @@
 import streamlit as st
 from app.page_1_output import display_output
 
+
 bl1 = (
     "https://developer.spotify.com/documentation/"
     "web-api/reference/get-an-artist"
