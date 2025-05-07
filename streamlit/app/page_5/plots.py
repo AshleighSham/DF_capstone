@@ -1,16 +1,6 @@
 import streamlit as st
 import plotly.graph_objects as go
-import plotly.express as px
 from plotly.subplots import make_subplots
-
-
-def line_plot(results):
-
-    fig = px.line(results,
-                  x=results['album_year'],
-                  y=results.columns[1:-1])
-    fig.update_traces(marker=dict(size=10))
-    st.plotly_chart(fig)
 
 
 def line_plots(results):
@@ -27,18 +17,8 @@ def line_plots(results):
                                      y=results[cols[col]],
                                      name=f"{cols[col]}"),
                           row=i, col=j)
+            fig.update_xaxes(title_text="Album Release Year", row=i, col=j)
             col += 1
 
     fig.update_layout(showlegend=False, height=1500, width=100)
-    st.plotly_chart(fig)
-
-
-def bar_graph(results):
-    st.title(":green[Genre Trends Through The Years]")
-    labels = {'album_year': 'Album Year'}
-    fig = px.bar(results,
-                 x="album_year",
-                 y=results.columns[1:-1],
-                 labels=labels)
-    fig.update_layout(showlegend=True, height=1000)
     st.plotly_chart(fig)
