@@ -33,7 +33,7 @@ This Capstone Project was completed as part of my Data Engineering course with D
 - Aa a Data Analyst, I want to be able to filter data by year, genre or popularity so I can draw specific insights.
 
 ## Repository Structure
-
+  
 This GitHub repository is organised into separate directories, each representing a different component of the project:
 
 - **data:** contains the CSV of the chosen dataset.
@@ -47,7 +47,9 @@ This GitHub repository is organised into separate directories, each representing
 - **tests:** Holds the tests for the ETL processes and relevant functions
 - **utils:** Hold files regarding general utilities for the different areas.
 - **.env.dev, .env.test:** two files containing the environment variables for testing and development
-
+<details>
+<summary>ASCII Tree for Root Respository</summary>
+  
 ```
 config/
 ├─ env_config.py
@@ -87,7 +89,20 @@ utils/
 *.env.dev*
 *.env*
 ```
+Files required by the user to add are marked with *
 [Tree maker](https://ascii-tree-generator.com/)
+
+</details>
+
+<details>
+  <summary>ASCII tree for Streamlit Respository </summary>
+
+  ```
+
+```
+Files required by the user to add are marked with *
+[Tree maker](https://ascii-tree-generator.com/)
+</details>
 
 ## Setting up the Spotify API Compatibility
 
