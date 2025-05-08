@@ -107,7 +107,7 @@ Files required by the user to add are marked with *
 
 ## Setting up the Spotify API Compatibility
 
-To run the ETL pipeline, a functioning Spotify developer app and its relevant details are required. [Instructions on setting one up can be found here](https://developer.spotify.com/documentation/web-api). The Client ID and Client Secret are for the api to use; the code below needs to be placed within utils/api_utils.py and streamlit/app/spotify_auth.py.
+To run the ETL pipeline, a functioning Spotify developer app and its relevant details are required. [Instructions on setting one up can be found here](https://developer.spotify.com/documentation/web-api). The Client ID and Client Secret are for the api to use; the code below needs to be placed within utils/api_utils.py.
 
 ```python
 import requests
@@ -142,10 +142,14 @@ def AuthenticateSpotify():
     access_token = response.json().get("access_token")
     return access_token
 ```
-
+```toml
+[api_credentials]
+client_id = "{your client ID}"
+client_secret = "{your client secret}"
+```
 ## Setting up your Postgresql database
 
-For the ETL pipeline to connect to your PostgreSQL database, the below code needs to be added into the relevant .env files in the root directory.
+For the ETL pipeline to connect to your PostgreSQL database, the below code needs to be added to the relevant .env files in the root directory.
 ```env
 # Target Database Configuration
 TARGET_DB_SCHEMA={schema name}
@@ -167,7 +171,7 @@ password = "{password}"
 ```
 
 ## FAQ
-### How would you go about optimising query execution and performance if the dataset continues to increase?
-### What error handling and logging have you included in your code and how this could be leveraged?
-### Are there any security or privacy issues that you need to consider and how would you mitigate them?
-### How this project could be deployed or adapted into an automated cloud environment using the AWS services you have covered?
+### How would you optimise query execution and performance if the dataset continues to increase?
+### What error handling and logging have you included in your code, and how could this be leveraged?
+### Are there any security or privacy issues that you need to consider,r and how would you mitigate them?
+### How could this project be deployed or adapted into an automated cloud environment using the AWS services you have covered?
