@@ -1,4 +1,7 @@
-SELECT
+
+
+def genres_by_year_query(schema):
+    query = f"""SELECT
     album_year,
     pop_count as "Pop",
     rock_count as "Rock",
@@ -14,4 +17,5 @@ SELECT
     novelty_count as "Novelty",
     easy_listening_count as "Easy Listening",
     cultural_count as "Cultural"
-FROM c12de.as_genres_by_year
+    FROM {schema}.as_genres_by_year"""
+    return query

@@ -1,4 +1,7 @@
-SELECT
+
+
+def features_by_year_query(schema):
+    query = f"""SELECT
     album_year,
     avg_danceability as "Danceability",
     avg_energy as "Energy",
@@ -8,4 +11,5 @@ SELECT
     avg_liveness as "Liveness",
     avg_valence as "Valence",
     avg_tempo as "Tempo"
-FROM c12de.as_properties_by_year
+    FROM {schema}.as_properties_by_year"""
+    return query

@@ -1,5 +1,5 @@
 
-def find_artist_songs(artist_id):
+def find_artist_songs(artist_id, schema):
     query = f"""WITH
         artist_songs
         as
@@ -22,6 +22,6 @@ def find_artist_songs(artist_id):
         explicit,
         popularity,
         album_image_url
-    FROM c12de.as_capstone
+    FROM {schema}.as_capstone
     INNER JOIN artist_songs ON as_capstone.track_id = artist_songs.track_id;"""
     return query

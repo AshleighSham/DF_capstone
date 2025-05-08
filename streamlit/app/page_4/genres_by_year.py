@@ -1,18 +1,14 @@
-import os
-from app.utils.sql_utils import import_sql_query
 from app.page_4.plots import bar_graph
+from app.sql.genres_by_year import genres_by_year_query
 import streamlit as st
 import pandas as pd
 
-ROOT_DIR = "c:/Users/ashle/Documents/GitHub/DF_capstone"
-QUERY_PATH = os.path.join(ROOT_DIR, 'streamlit', 'app', 'sql')
-
 
 def genres_by_year(conn):
-    sql = import_sql_query(os.path.join(QUERY_PATH, "genres_by_year.sql"))
+    schema = st.secrets.sql_schema.schema
 
     # Execute the query using SQLAlchemy
-    result = conn.query(sql)
+    result = conn.query(genres_by_year_query(schema))
 
     # Convert the result to a Pandas DataFrame
     df = pd.DataFrame(result)

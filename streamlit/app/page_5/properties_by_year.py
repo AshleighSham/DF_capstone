@@ -1,17 +1,14 @@
-import os
-from app.utils.sql_utils import import_sql_query
 from app.page_5.plots import line_plots
+import streamlit as st
 import pandas as pd
-
-ROOT_DIR = "c:/Users/ashle/Documents/GitHub/DF_capstone"
-QUERY_PATH = os.path.join(ROOT_DIR, 'streamlit', 'app', 'sql')
+from app.sql.features_by_year import features_by_year_query
 
 
 def properties_by_year(conn):
-    sql = import_sql_query(os.path.join(QUERY_PATH, "properties_by_year.sql"))
+    schema = st.secrets.sql_schema.schema
 
     # Execute the query using SQLAlchemy
-    result = conn.query(sql)
+    result = conn.query(features_by_year_query(schema))
 
     # Convert the result to a Pandas DataFrame
     df = pd.DataFrame(result)
