@@ -125,8 +125,8 @@ app/
 │  ├─ plots.py
 ├─ sql/
 │  ├─ artist_songs_in_top_songs.py
-│  ├─ genres_by_year.sql
-│  ├─ properties_by_year.sql
+│  ├─ genres_by_year.py
+│  ├─ features_by_year.py
 |  utils/
 │  ├─ api_utils.py
 │  ├─ sql_utils.py
