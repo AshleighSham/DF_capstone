@@ -6,8 +6,7 @@
 - [Planning](#planning)
 - [User Stories](#user-stories)
 - [Repository Structure](#repository-structure)
-- [Setting up the Spotify API Compatibility](#setting-up-the-Spotify-API-Compatibility)
-- [Setting up your Postgresql database](#setting-up-your-postgresql-database)
+- [Setting up the Spotify API and PostgreSQL Compatibility](#setting-up-the-spotify-api-and-postgresql-compatibility)
 - [FAQ](#FAQ)
 
 ## Project Overview
@@ -82,7 +81,7 @@ tests/
 ├─ unit_tests/
 ├─ run_tests.py
 utils/
-├─ *api_utils.py*
+├─ api_utils.py
 ├─ transform_utils.py
 ├─ sql_utils.py
 ├─ db_utils.py
@@ -105,62 +104,24 @@ Files required by the user to add are marked with *
 [Tree maker](https://ascii-tree-generator.com/)
 </details>
 
-## Setting up the Spotify API Compatibility
+## Setting up the Spotify API and PostgreSQL Compatibility
 
-To run the ETL pipeline, a functioning Spotify developer app and its relevant details are required. [Instructions on setting one up can be found here](https://developer.spotify.com/documentation/web-api). The Client ID and Client Secret are for the api to use; the code below needs to be placed within utils/api_utils.py.
+To run the ETL pipeline, a functioning Spotify developer app and its relevant details are required and access to a PostgreSQL database. [Instructions on setting up a Spotify app can be found here](https://developer.spotify.com/documentation/web-api). The Client ID and Client Secret are for API use; the code below needs to be placed within your .env files in the root directory.
 
-```python
-import requests
-import base64
-
-
-def AuthenticateSpotify():
-
-    # Spotify client credentials
-    client_id = "{your client id}"
-    client_secret = "{your client secret}"
-
-    # Encode client_id and client_secret in Base64
-    auth_header = base64.b64encode(f"{client_id}:{client_secret}".encode())
-    auth_header = auth_header.decode()
-    # Define the request headers and data
-    headers = {
-        "Authorization": f"Basic {auth_header}",
-        "Content-Type": "application/x-www-form-urlencoded",
-    }
-    data = {
-        "grant_type": "client_credentials",
-    }
-
-    try:
-        # Make the POST request to get the access token
-        response = requests.post("https://accounts.spotify.com/api/token",
-                                 headers=headers, data=data)
-    except requests.exceptions.RequestException as e:
-        raise f"Error: {e}"
-
-    access_token = response.json().get("access_token")
-    return access_token
-```
-```toml
-[api_credentials]
-client_id = "{your client ID}"
-client_secret = "{your client secret}"
-```
-## Setting up your Postgresql database
-
-For the ETL pipeline to connect to your PostgreSQL database, the below code needs to be added to the relevant .env files in the root directory.
 ```env
 # Target Database Configuration
 TARGET_DB_SCHEMA={schema name}
 TARGET_DB_NAME={database name}
 TARGET_DB_USER={username}
-TARGET_DB_PASSWORD={password if required else leave blank}
+TARGET_DB_PASSWORD={password if required, else leave blank}
 TARGET_DB_HOST={host}
 TARGET_DB_PORT={port}
-```
 
-And for the streamlit app to access the data loaded into the PostgreSQL database, the following code needs to be added to streamlit/.streamlit/secrets.toml.
+# Spotify API Configuration
+CLIENT_ID={your client ID}
+CLIENT_SECRET={your client secret}
+```
+And for the streamlit app to function a secrets.toml file needs to be added to the streamlit/.streamlit directory with the following information.
 ```toml
 [connections.sql]
 dialect = "postgresql"
@@ -168,7 +129,12 @@ database = "{database name}"
 host = "{host}"
 username = "{username}"
 password = "{password}"
+
+[api_credentials]
+client_id = "{your client ID}"
+client_secret = "{your client secret}"
 ```
+
 
 ## FAQ
 ### How would you optimise query execution and performance if the dataset continues to increase?
