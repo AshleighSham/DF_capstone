@@ -59,7 +59,8 @@ def format_column_names(tracks: pd.DataFrame) -> pd.DataFrame:
     tracks = tracks.rename(columns={'track_uri': 'track_id',
                                     'artist_uris': 'artist_id',
                                     'album_uri': 'album_id',
-                                    'album_artist_uris': 'album_artist_id'})
+                                    'album_artist_uris': 'album_artist_id',
+                                    'album_release_date': 'album_year'})
 
     return tracks
 
@@ -187,11 +188,14 @@ def clean_tracks(tracks: pd.DataFrame) -> pd.DataFrame:
     tracks = tracks.drop_duplicates()
 
     # standardise date format
-    tracks['album_release_date'] = pd.to_datetime(tracks['album_release_date'],
-                                                  errors='coerce')
+    tracks['album_year'] = pd.to_datetime(tracks['album_year'],
+                                          errors='coerce').dt.year
 
     # drop rows with invalid dates
-    tracks = tracks.dropna(subset=['album_release_date'])
+    tracks = tracks.dropna(subset=['album_year'])
+
+    # Convert the year to an integer
+    tracks['album_year'] = tracks['album_year'].astype(int)
 
     tracks = convert_uris_to_ids(tracks)
 
@@ -206,7 +210,7 @@ def remove_missing_values(tracks: pd.DataFrame) -> pd.DataFrame:
     # Remove rows with missing values
     tracks = tracks.dropna(subset=['track_id', 'track_name',
                                    'artist_id', 'artist_names',
-                                   'album_release_date', 'album_id',
+                                   'album_year', 'album_id',
                                    'album_name', 'album_artist_id',
                                    'album_artist_names', 'album_image_url'])
 

@@ -1,6 +1,6 @@
 CREATE OR REPLACE VIEW as_properties_by_year AS
 SELECT
-    DATE_PART('YEAR', album_release_date) AS album_year,
+    album_year,
     AVG(danceability) AS avg_danceability,
     AVG(energy) AS avg_energy,
     AVG(key) AS avg_key,
