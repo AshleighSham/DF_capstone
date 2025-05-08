@@ -2,10 +2,9 @@ import streamlit as st
 import plotly.graph_objects as go
 
 
-def bar_graph(results, filter):
+def bar_graph(results):
     st.title(":green[Genre Trends Through The Years]")
 
-    filter.sort()
     color_discrete_map = {
             'Pop': '#ea5545',
             'Rock': '#f46a9b',
@@ -22,18 +21,52 @@ def bar_graph(results, filter):
             'Easy Listening': '#9b19f5'
             }
 
+    plot_spot = st.empty()
+
+    selected_years = st.slider(
+        ":green[Select a Range of Years]", 1950, 2024,
+        value=[1950, 2024]
+    )
+
+    filter = st.multiselect(':green[Select Genres]',
+                            options=[
+                                'Pop', 'Rock', 'Hip-Hop',
+                                'Electronic', 'R&B/soul',
+                                'Folk', 'Country', 'Ska',
+                                'Disco/Dance', 'Indie/Alternative',
+                                'Retro/Vintage', 'Novelty',
+                                'Easy Listening'
+                                ],
+                            default=[
+                                'Pop', 'Rock', 'Hip-Hop',
+                                'Electronic', 'R&B/soul',
+                                'Folk', 'Country', 'Ska',
+                                'Disco/Dance', 'Indie/Alternative',
+                                'Retro/Vintage', 'Novelty',
+                                'Easy Listening'
+                                ]
+                            )
+
+    filter.sort()
+
+    results.set_index("album_year", inplace=True)
+
+    temp_results = results.loc[selected_years[0]:selected_years[1]]
+
     fig = go.Figure()
     for genre in filter:
         fig.add_trace(go.Bar(
-            x=results["album_year"],
-            y=results[genre],
+            x=temp_results.index,
+            y=temp_results[genre],
             name=genre,
             marker_color=color_discrete_map[genre]
             )
         )
 
-    fig.update_layout(barmode='stack', showlegend=True, height=1000,
+    fig.update_layout(barmode='stack', showlegend=True, height=600,
                       yaxis={'title': "Number of Tracks"},
                       xaxis={'title': "Album Release Year",
                              'categoryorder': 'category ascending'})
-    st.plotly_chart(fig)
+
+    with plot_spot.container():
+        st.plotly_chart(fig)
