@@ -26,7 +26,7 @@ def display_albums_dataframe(albums_df):
         column_config={
             'album': 'Album Name',
             'total_tracks': 'Total Tracks',
-            'release_date': st.column_config.DateColumn('Release Date'),
+            'release_date': 'Release Date',
             'popularity': 'Popularity (0-100)',
             'label': 'Label'
             }

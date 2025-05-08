@@ -1,6 +1,6 @@
 import streamlit as st
-from app.spotify_auth import AuthenticateSpotify
-from app.utilis import verify_request
+from app.utils.api_utils import AuthenticateSpotify
+from app.utils.api_utils import verify_request
 import requests
 
 

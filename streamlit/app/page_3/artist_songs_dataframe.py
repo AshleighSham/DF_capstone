@@ -27,12 +27,12 @@ def artist_songs_dataframe(conn, artist_id, artist_name):
                          'album_name': 'Album Name',
                          'disc_number': 'Disc Number',
                          'track_number': 'Track Number',
-                         'album_release_date': 'Release Date',
+                         'album_release_date':
+                             st.column_config.DateColumn('Release Date'),
                          'track_name': 'Track Name',
                          'artist_names': 'Artist Names',
                          'track_duration_ms': st.column_config.TimeColumn(
-                             'Duration (min)', format="mm:ss"
-                         ),
+                             'Duration (min)', format="mm:ss"),
                          'explicit': 'Explicit',
                          'popularity': 'Popularity (0-100)'
                          },

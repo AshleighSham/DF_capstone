@@ -7,7 +7,7 @@ from app.page_2.dataframes import (
     display_albums_dataframe,
     display_individual_album_dataframe
 )
-from app.page_2.scatter_plot import individual_album_scatter, all_album_scatter
+from app.page_2.plots import individual_album_scatter, all_album_scatter
 
 
 def display_output(artist_id, token):

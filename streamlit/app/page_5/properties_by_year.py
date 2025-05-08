@@ -1,5 +1,5 @@
 import os
-from app.sql_utils import import_sql_query
+from app.utils.sql_utils import import_sql_query
 from app.page_5.plots import line_plots
 import pandas as pd
 

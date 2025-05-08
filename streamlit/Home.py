@@ -1,13 +1,7 @@
 import streamlit as st
-from app.artist_search import get_artist_id
+from app.home_page.artist_search import get_artist_id
 from app.page_1.artist_data import get_artists_data
 import time
-
-_LOREM_IPSUM = """
-Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do eiusmod tempor
-incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-"""
 
 
 def stream_data(text):

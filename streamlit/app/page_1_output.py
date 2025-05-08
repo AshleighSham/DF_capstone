@@ -1,7 +1,7 @@
 import streamlit as st
 from app.page_1.artist_top_tracks import get_artists_top_tracks
 from app.page_1.artist_data import get_artists_data
-from app.page_1.scatter_plot import scatter_plot
+from app.page_1.plots import scatter_plot
 
 
 def display_output(artist_id, token):
