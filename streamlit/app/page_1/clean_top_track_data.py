@@ -27,6 +27,4 @@ def top_track_dataframe(response):
         for i in range(len(df))
     ]
 
-    df['duration_ms'] = pd.to_timedelta(df['duration_ms'], unit='ms')
-
     return df
