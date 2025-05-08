@@ -5,12 +5,12 @@ with open("requirements.txt") as f:
     install_requires = f.read().splitlines()
 
 setup(
-    name="etl_example",
+    name="spotify_etl_pipeline",
     version="0.1.0",
     description=("An ETL project for extracting, transforming, and loading data."),
-    author="Your Name",
-    author_email="ewright@digitalfutures.com",
-    url="https://github.com/de-2502-a/etl-project-demo",
+    author="Ashleigh Shambrook",
+    author_email="ashleigh.sham@gmail.com",
+    url="https://github.com/AshleighSham/DF_capstone",
     packages=find_packages(),
     include_package_data=True,
     install_requires=install_requires,
