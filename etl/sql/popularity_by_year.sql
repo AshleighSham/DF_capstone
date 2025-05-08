@@ -1,20 +1,20 @@
 CREATE OR REPLACE VIEW as_popularity_by_year AS
 SELECT
-    album_year,
+    FLOOR(album_year / 5) * 5 AS year_group,
     COUNT(CASE WHEN popularity = 0 THEN 1 END) AS bin_0,
-    COUNT(CASE WHEN popularity BETWEEN 1 AND 9 THEN 1 END) AS bin_1_9,
-    COUNT(CASE WHEN popularity BETWEEN 10 AND 19 THEN 1 END) AS bin_10_19,
-    COUNT(CASE WHEN popularity BETWEEN 20 AND 29 THEN 1 END) AS bin_20_29,
-    COUNT(CASE WHEN popularity BETWEEN 30 AND 39 THEN 1 END) AS bin_30_39,
-    COUNT(CASE WHEN popularity BETWEEN 40 AND 49 THEN 1 END) AS bin_40_49,
-    COUNT(CASE WHEN popularity BETWEEN 50 AND 59 THEN 1 END) AS bin_50_59,
-    COUNT(CASE WHEN popularity BETWEEN 60 AND 69 THEN 1 END) AS bin_60_69,
-    COUNT(CASE WHEN popularity BETWEEN 70 AND 79 THEN 1 END) AS bin_70_79,
-    COUNT(CASE WHEN popularity BETWEEN 80 AND 89 THEN 1 END) AS bin_80_89,
-    COUNT(CASE WHEN popularity BETWEEN 90 AND 100 THEN 1 END) AS bin_90_100
+    COUNT(CASE WHEN popularity BETWEEN 1 AND 10 THEN 1 END) AS bin_1_10,
+    COUNT(CASE WHEN popularity BETWEEN 11 AND 20 THEN 1 END) AS bin_11_20,
+    COUNT(CASE WHEN popularity BETWEEN 21 AND 30 THEN 1 END) AS bin_21_30,
+    COUNT(CASE WHEN popularity BETWEEN 31 AND 40 THEN 1 END) AS bin_31_40,
+    COUNT(CASE WHEN popularity BETWEEN 41 AND 50 THEN 1 END) AS bin_41_50,
+    COUNT(CASE WHEN popularity BETWEEN 51 AND 60 THEN 1 END) AS bin_51_60,
+    COUNT(CASE WHEN popularity BETWEEN 61 AND 70 THEN 1 END) AS bin_61_70,
+    COUNT(CASE WHEN popularity BETWEEN 71 AND 80 THEN 1 END) AS bin_71_80,
+    COUNT(CASE WHEN popularity BETWEEN 81 AND 90 THEN 1 END) AS bin_81_90,
+    COUNT(CASE WHEN popularity BETWEEN 91 AND 100 THEN 1 END) AS bin_91_100
 FROM
     as_capstone
 GROUP BY
-    album_year
+    FLOOR(album_year / 5) * 5
 ORDER BY
-    album_year;
+    year_group;
