@@ -174,7 +174,7 @@ username = "{username}"
 password = "{password}"
 
 [sql_schema]
-schema = "[your schema name}"
+schema = "{your schema name}"
 
 [api_credentials]
 client_id = "{your client ID}"
