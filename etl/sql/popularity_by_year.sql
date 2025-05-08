@@ -1,0 +1,20 @@
+CREATE OR REPLACE VIEW as_popularity_by_year AS
+SELECT
+    album_year,
+    COUNT(CASE WHEN popularity = 0 THEN 1 END) AS bin_0,
+    COUNT(CASE WHEN popularity BETWEEN 1 AND 9 THEN 1 END) AS bin_1_9,
+    COUNT(CASE WHEN popularity BETWEEN 10 AND 19 THEN 1 END) AS bin_10_19,
+    COUNT(CASE WHEN popularity BETWEEN 20 AND 29 THEN 1 END) AS bin_20_29,
+    COUNT(CASE WHEN popularity BETWEEN 30 AND 39 THEN 1 END) AS bin_30_39,
+    COUNT(CASE WHEN popularity BETWEEN 40 AND 49 THEN 1 END) AS bin_40_49,
+    COUNT(CASE WHEN popularity BETWEEN 50 AND 59 THEN 1 END) AS bin_50_59,
+    COUNT(CASE WHEN popularity BETWEEN 60 AND 69 THEN 1 END) AS bin_60_69,
+    COUNT(CASE WHEN popularity BETWEEN 70 AND 79 THEN 1 END) AS bin_70_79,
+    COUNT(CASE WHEN popularity BETWEEN 80 AND 89 THEN 1 END) AS bin_80_89,
+    COUNT(CASE WHEN popularity BETWEEN 90 AND 100 THEN 1 END) AS bin_90_100
+FROM
+    as_capstone
+GROUP BY
+    album_year
+ORDER BY
+    album_year;
