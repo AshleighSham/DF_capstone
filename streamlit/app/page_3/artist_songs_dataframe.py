@@ -27,8 +27,7 @@ def artist_songs_dataframe(conn, artist_id, artist_name):
                          'album_name': 'Album Name',
                          'disc_number': 'Disc Number',
                          'track_number': 'Track Number',
-                         'album_release_date':
-                             st.column_config.DateColumn('Release Date'),
+                         'album_year': 'Release Year',
                          'track_name': 'Track Name',
                          'artist_names': 'Artist Names',
                          'track_duration_ms': st.column_config.TimeColumn(

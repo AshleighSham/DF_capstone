@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 
 
 def get_full_album_dataframe(albums_df, overall):
@@ -19,6 +20,12 @@ def display_albums_dataframe(albums_df):
                       'label',
                       'popularity']]
 
+    # standardise date format
+    data['release_date'] = pd.to_datetime(data['release_date'],
+                                          errors='coerce').dt.year
+
+    # Convert the year to an integer
+    data['release_date'] = data['release_date'].astype(int)
     st.dataframe(
         data,
         hide_index=True,
@@ -26,7 +33,7 @@ def display_albums_dataframe(albums_df):
         column_config={
             'album': 'Album Name',
             'total_tracks': 'Total Tracks',
-            'release_date': 'Release Date',
+            'release_date': 'Release Year',
             'popularity': 'Popularity (0-100)',
             'label': 'Label'
             }
@@ -51,7 +58,7 @@ def display_individual_album_dataframe(individual_albums, album_id):
             'name': 'Track Name',
             'duration_ms': st.column_config.TimeColumn('Duration (min)',
                                                        format="mm:ss"),
-            'explicit': st.column_config.TextColumn('Explicit'),
+            'explicit': 'Explicit',
             'popularity': 'Popularity (0- 100)'
             }
         )

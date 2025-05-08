@@ -15,7 +15,7 @@ def find_artist_songs(artist_id):
         album_name,
         disc_number,
         track_number,
-        album_release_date,
+        album_year,
         track_name,
         artist_names,
         track_duration_ms,
