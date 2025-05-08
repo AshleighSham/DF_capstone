@@ -7,6 +7,7 @@
 - [User Stories](#user-stories)
 - [Repository Structure](#repository-structure)
 - [Setting up the Spotify API Compatibility](#setting-up-the-Spotify-API-Compatibility)
+- [Setting up your Postgresql database](#setting-up-your-postgresql-database)
 - [FAQ](#FAQ)
 
 ## Project Overview
@@ -33,7 +34,7 @@ This Capstone Project was completed as part of my Data Engineering course with D
 - Aa a Data Analyst, I want to be able to filter data by year, genre or popularity so I can draw specific insights.
 
 ## Repository Structure
-
+  
 This GitHub repository is organised into separate directories, each representing a different component of the project:
 
 - **data:** contains the CSV of the chosen dataset.
@@ -47,10 +48,66 @@ This GitHub repository is organised into separate directories, each representing
 - **tests:** Holds the tests for the ETL processes and relevant functions
 - **utils:** Hold files regarding general utilities for the different areas.
 - **.env.dev, .env.test:** two files containing the environment variables for testing and development
+<details>
+<summary>ASCII Tree for Root Respository</summary>
+  
+```
+config/
+├─ env_config.py
+├─ db_config.py
+data/
+├─ raw/
+│  ├─ top_10000_1960-now.csv
+├─ clean/
+│  ├─ transformed_data.csv
+etl/
+├─ extract/
+│  ├─ extract.py
+├─ transform/
+│  ├─ transform.py
+├─ load/
+│  ├─ load.py
+│  ├─ post_load_enrichment.py
+├─ sql/
+│  ├─ artists_track_table.sql
+│  ├─ genres_by_year.sql
+│  ├─ properties_by_year.sql
+│  ├─ set_primary_key.sql
+scripts/
+├─ run_etl.py
+streamlit/
+tests/
+├─ component_tests/
+├─ integration_tests/
+├─ unit_tests/
+├─ run_tests.py
+utils/
+├─ *api_utils.py*
+├─ transform_utils.py
+├─ sql_utils.py
+├─ db_utils.py
+*.env.test*
+*.env.dev*
+*.env*
+```
+Files required by the user to add are marked with *
+[Tree maker](https://ascii-tree-generator.com/)
+
+</details>
+
+<details>
+  <summary>ASCII tree for Streamlit Respository </summary>
+
+  ```
+
+```
+Files required by the user to add are marked with *
+[Tree maker](https://ascii-tree-generator.com/)
+</details>
 
 ## Setting up the Spotify API Compatibility
 
-To run the ETL pipeline, a functioning Spotify developer app and its relevant details are required. [Instructions on setting one up can be found here](https://developer.spotify.com/documentation/web-api). The Client ID and Client Secret are for the api to be used; these need to be placed within the utils directory in a file called api_utils.py.
+To run the ETL pipeline, a functioning Spotify developer app and its relevant details are required. [Instructions on setting one up can be found here](https://developer.spotify.com/documentation/web-api). The Client ID and Client Secret are for the api to use; the code below needs to be placed within utils/api_utils.py.
 
 ```python
 import requests
@@ -85,14 +142,36 @@ def AuthenticateSpotify():
     access_token = response.json().get("access_token")
     return access_token
 ```
-Like above, the Streamlit functionality also requires Spotify API access; the file must be added to the streamlit/app directory under the name spotify_auth.py, containing the same code as above.
-
-
+```toml
+[api_credentials]
+client_id = "{your client ID}"
+client_secret = "{your client secret}"
+```
 ## Setting up your Postgresql database
 
+For the ETL pipeline to connect to your PostgreSQL database, the below code needs to be added to the relevant .env files in the root directory.
+```env
+# Target Database Configuration
+TARGET_DB_SCHEMA={schema name}
+TARGET_DB_NAME={database name}
+TARGET_DB_USER={username}
+TARGET_DB_PASSWORD={password if required else leave blank}
+TARGET_DB_HOST={host}
+TARGET_DB_PORT={port}
+```
+
+And for the streamlit app to access the data loaded into the PostgreSQL database, the following code needs to be added to streamlit/.streamlit/secrets.toml.
+```toml
+[connections.sql]
+dialect = "postgresql"
+database = "{database name}"
+host = "{host}"
+username = "{username}"
+password = "{password}"
+```
 
 ## FAQ
-### How would you go about optimising query execution and performance if the dataset continues to increase?
-### What error handling and logging have you included in your code and how this could be leveraged?
-### Are there any security or privacy issues that you need to consider and how would you mitigate them?
-### How this project could be deployed or adapted into an automated cloud environment using the AWS services you have covered?
+### How would you optimise query execution and performance if the dataset continues to increase?
+### What error handling and logging have you included in your code, and how could this be leveraged?
+### Are there any security or privacy issues that you need to consider,r and how would you mitigate them?
+### How could this project be deployed or adapted into an automated cloud environment using the AWS services you have covered?
