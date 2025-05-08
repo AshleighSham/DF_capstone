@@ -97,8 +97,51 @@ Files required by the user to add are marked with *
 <details>
   <summary>ASCII tree for Streamlit Respository </summary>
 
-  ```
-
+```
+.streamlit/
+├─ config.toml
+├─ *secrets.toml*
+app/
+├─ home_page/
+│  ├─ artist_search.py
+├─ page_1/
+│  ├─ artist_data.py
+│  ├─ artist_top_tracks.py
+│  ├─ clean_top_tracks.py
+│  ├─ plots.py
+├─ page_2/
+│  ├─ artist_albums.py
+│  ├─ clean_top_album_data.py
+│  ├─ dataframes.py
+│  ├─ get_track_popularity.py
+│  ├─ plots.py
+├─ page_3/
+│  ├─ artist_songs_dataframe.py
+├─ page_4/
+│  ├─ genres_by_year.py
+│  ├─ plots.py
+├─ page_5/
+│  ├─ properties_by_year.py
+│  ├─ plots.py
+├─ sql/
+│  ├─ artist_songs_in_top_songs.py
+│  ├─ genres_by_year.sql
+│  ├─ properties_by_year.sql
+├─ page_1_output.py
+├─ page_2_output.py
+├─ page_3_output.py
+├─ page_4_output.py
+├─ page_5_output.py
+├─ utils.py
+├─ spotify_auth.py
+├─ sql_utils.py
+pages/
+├─ 1_Artist_Top_Tracks.py
+├─ 2_Artist_Albums.py
+├─ 3_Top_Songs.py
+├─ 4_Genre_Trends.py
+├─ 5_Track_Feature_Trends.py
+Home.py
 ```
 Files required by the user to add are marked with *
 [Tree maker](https://ascii-tree-generator.com/)
