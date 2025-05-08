@@ -1,6 +1,5 @@
 import pandas as pd
 from utils.transform_utils import (
-    convert_uris_to_ids,
     get_track_data,
     get_tracks_data,
     check_in_list,
@@ -17,9 +16,6 @@ def transform_data(tracks: pd.DataFrame, state: str) -> pd.DataFrame:
     """
     # format dataframe column names
     tracks = format_column_names(tracks)
-
-    # replaces URIs to IDs
-    tracks = convert_uris_to_ids(tracks)
 
     # Remove user API data
     tracks = drop_columns(tracks)
@@ -58,6 +54,12 @@ def format_column_names(tracks: pd.DataFrame) -> pd.DataFrame:
 
     # remove special characters
     tracks.columns = tracks.columns.str.replace('(', '').str.replace(')', '')
+
+    # rename columns
+    tracks = tracks.rename(columns={'track_uri': 'track_id',
+                                    'artist_uris': 'artist_id',
+                                    'album_uri': 'album_id',
+                                    'album_artist_uris': 'album_artist_id'})
 
     return tracks
 
@@ -153,6 +155,29 @@ def update_API_data(dataframe: pd.DataFrame, token) -> pd.DataFrame:
     return updated_df
 
 
+def convert_uris_to_ids(tracks: pd.DataFrame) -> pd.DataFrame:
+    """
+
+    Args:
+
+    Returns:
+
+    """
+    # Convert Spotify URIs to IDs
+    tracks['track_id'] = tracks['track_id'].str.replace('spotify:track:',
+                                                        '', regex=False)
+
+    tracks['album_id'] = tracks['album_id'].str.replace('spotify:album:', '',
+                                                        regex=False)
+    tracks['album_artist_id'] = tracks['album_artist_id'].str.replace(
+                                        'spotify:artist:', '', regex=False
+                                                                        )
+    # format artist_id
+    tracks['artist_id'] = tracks['artist_id'].str.replace('spotify:artist:',
+                                                          '', regex=False)
+    return tracks
+
+
 def clean_tracks(tracks: pd.DataFrame) -> pd.DataFrame:
     """
     Cleans and transforms a DataFrame containing track information
@@ -168,9 +193,7 @@ def clean_tracks(tracks: pd.DataFrame) -> pd.DataFrame:
     # drop rows with invalid dates
     tracks = tracks.dropna(subset=['album_release_date'])
 
-    # format artist_id
-    tracks['artist_id'] = tracks['artist_id'].str.replace('spotify:artist:',
-                                                          '', regex=False)
+    tracks = convert_uris_to_ids(tracks)
 
     return tracks
 
@@ -201,18 +224,6 @@ def drop_columns(tracks: pd.DataFrame) -> pd.DataFrame:
     # Remove unnecessary columns
     tracks = tracks.drop(columns=['track_preview_url', 'album_genres',
                                   'copyrights', 'label'])
-    return tracks
-
-
-def format_artist_id(tracks: pd.DataFrame) -> pd.DataFrame:
-    """
-    Reformat the artist id columns so they are compatible with the API
-    """
-
-    tracks['artist_id'] = tracks['artist_id'].str.replace('spotify:artist:',
-                                                          '', regex=False)
-    tracks['artist_id'] = tracks['artist_id'].str.replace(' ', '', regex=False)
-
     return tracks
 
 
