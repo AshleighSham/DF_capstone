@@ -127,14 +127,14 @@ app/
 │  ├─ artist_songs_in_top_songs.py
 │  ├─ genres_by_year.sql
 │  ├─ properties_by_year.sql
+|  utils/
+│  ├─ api_utils.py
+│  ├─ sql_utils.py
 ├─ page_1_output.py
 ├─ page_2_output.py
 ├─ page_3_output.py
 ├─ page_4_output.py
 ├─ page_5_output.py
-├─ utils.py
-├─ spotify_auth.py
-├─ sql_utils.py
 pages/
 ├─ 1_Artist_Top_Tracks.py
 ├─ 2_Artist_Albums.py
