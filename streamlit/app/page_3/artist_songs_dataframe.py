@@ -7,7 +7,8 @@ def artist_songs_dataframe(conn, artist_id, artist_name):
     schema = st.secrets.sql_schema.schema
 
     df = conn.query(
-        f"SELECT * FROM {schema}.as_artists_track WHERE artist_id = '{artist_id}'"
+        f"SELECT * FROM {schema}.as_artists_track WHERE"
+        f" artist_id = '{artist_id}'"
     )
 
     if df.empty:
@@ -17,7 +18,10 @@ def artist_songs_dataframe(conn, artist_id, artist_name):
         )
     else:
         st.title(
-                f":green[{artist_name} has songs in the Top Songs (1950-2024)]"
+                ":green[{a} has {b} songs in the Top Songs (1950-2024)]".format(
+                    a=artist_name,
+                    b=len(df)
+                )
             )
         df2 = conn.query(find_artist_songs(artist_id, schema))
         st.dataframe(df2,
