@@ -23,6 +23,9 @@ def transform_data(tracks: pd.DataFrame, state: str) -> pd.DataFrame:
     # Clean dataframe
     tracks = clean_tracks(tracks)
 
+    # changes data format to make it compatible with API
+    tracks = convert_uris_to_ids(tracks)
+
     # removie missing values
     tracks = remove_missing_values(tracks)
 
@@ -66,7 +69,6 @@ def format_column_names(tracks: pd.DataFrame) -> pd.DataFrame:
 
 
 def update_API_data(dataframe: pd.DataFrame, token) -> pd.DataFrame:
-    raise "Oopsie"
     """
     Updates the 'popularity' column in the given DataFrame by fetching data
     from an external API using track IDs and ISRC codes.
@@ -196,8 +198,6 @@ def clean_tracks(tracks: pd.DataFrame) -> pd.DataFrame:
 
     # Convert the year to an integer
     tracks['album_year'] = tracks['album_year'].astype(int)
-
-    tracks = convert_uris_to_ids(tracks)
 
     return tracks
 
