@@ -60,9 +60,9 @@ def main():
             st.session_state.token = token
 
             st.write(stream_data(("...collecting data for suggested artist "
-                                  f"**{artist_name}**, if this is not the "
-                                  "Artist you were looking for please "
-                                  "double check your spelling")))
+                                  f"**:green[{artist_name}]**, if this is not "
+                                  "the Artist you were looking for please "
+                                  "double check your spelling...")))
 
 
 if __name__ == "__main__":

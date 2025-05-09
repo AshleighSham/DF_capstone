@@ -7,7 +7,7 @@ def artist_songs_dataframe(conn, artist_id, artist_name):
     schema = st.secrets.sql_schema.schema
 
     df = conn.query(
-        f"SELECT * FROM {schema}.as_artists_track WHERE artist_id = {artist_id}"
+        f"SELECT * FROM {schema}.as_artists_track WHERE artist_id = '{artist_id}'"
     )
 
     if df.empty:

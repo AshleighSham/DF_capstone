@@ -141,7 +141,7 @@ def upsert_on_existing_table(data: pd.DataFrame, connection):
 
         # # Execute the upsert statement within a transaction
         session.execute(upsert_stmt)
-        # session.commit()
+        session.commit()
     except SQLAlchemyError as e:
         if "session" in locals():
             session.rollback()
