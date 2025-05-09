@@ -9,7 +9,7 @@ def test_transform_data():
     # Expected Dataframe
     expected_track_data_path = os.path.join(
         base_path,
-        '../test_data/expected_track_data.csv'
+        '../test_data/test_output_data.csv'
     )
 
     expected_track_data = pd.read_csv(expected_track_data_path)
@@ -25,13 +25,11 @@ def test_transform_data():
     # Test Dataframe
     test_track_path = os.path.join(
         base_path,
-        '../test_data/test_track_data.csv'
+        '../test_data/test_input.csv'
     )
 
     test_track_data = pd.read_csv(test_track_path)
-    test_result = transform_data(test_track_data).sort_values(
-        by='track_id'
-    ).reset_index(drop=True)
+    test_result = transform_data(test_track_data, state="old")
     test_result = test_result.sort_values(by='track_id').reset_index(
         drop=True
     )

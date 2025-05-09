@@ -20,9 +20,6 @@ def transform_data(tracks: pd.DataFrame, state: str) -> pd.DataFrame:
     # Remove user API data
     tracks = drop_columns(tracks)
 
-    # Clean dataframe
-    tracks = clean_tracks(tracks)
-
     # changes data format to make it compatible with API
     tracks = convert_uris_to_ids(tracks)
 
@@ -39,10 +36,11 @@ def transform_data(tracks: pd.DataFrame, state: str) -> pd.DataFrame:
         filepath = "../../data/clean/transformed_data.csv"
         tracks = update_data(tracks, filepath)
 
-    tracks = tracks.dropna(subset=['popularity'])
-
     # add columns for cleaner genre for the lols
     tracks = simplify_and_expand_artist_genres(tracks)
+
+    # Clean dataframe
+    tracks = clean_tracks(tracks)
 
     return tracks
 
@@ -196,8 +194,14 @@ def clean_tracks(tracks: pd.DataFrame) -> pd.DataFrame:
     # drop rows with invalid dates
     tracks = tracks.dropna(subset=['album_year'])
 
+    tracks = tracks.dropna(subset=['popularity'])
+
     # Convert the year to an integer
     tracks['album_year'] = tracks['album_year'].astype(int)
+
+    tracks['explicit'] = tracks['explicit'].map({'True': True, 'False': False})
+    with pd.option_context("future.no_silent_downcasting", True):
+        tracks['explicit'] = tracks['explicit'].fillna(False).astype(bool)
 
     return tracks
 
@@ -259,13 +263,12 @@ def update_data(tracks, filepath):
     new_pop_data_map = dict(zip(new_pop_data['track_id'],
                                 new_pop_data['popularity']))
 
-    tracks.set_index('track_id')
-    for idx in tracks:
-        if idx in new_pop_data_map:
-            tracks.loc[idx, 'popularity'] = new_pop_data_map[
-                        idx
-                    ]
-        else:
-            tracks.loc[idx, 'popularity'] = pd.NA
+    tracks.set_index('track_id', inplace=True)
+
+    for idx in tracks.index:
+        tracks.loc[idx, 'popularity'] = new_pop_data_map.get(idx, pd.NA)
+
+    # Reset index to avoid side effects
+    tracks.reset_index(inplace=True)
 
     return tracks

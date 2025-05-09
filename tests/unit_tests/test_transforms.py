@@ -51,26 +51,9 @@ def test_drop_columns():
     pd.testing.assert_frame_equal(output.reset_index(drop=True), expected_df)
 
 
-def test_clean_tracks():
-    base_path = os.path.dirname(__file__)
-    test_data_path = os.path.join(base_path, '../test_data/drop_columns_data.csv')
-
-    expected_data_path = os.path.join(
-        base_path,
-        '../test_data/clean_tracks_data.csv'
-    )
-
-    df = pd.read_csv(test_data_path)
-    expected_df = pd.read_csv(expected_data_path)
-
-    output = clean_tracks(df)
-
-    pd.testing.assert_frame_equal(output.reset_index(drop=True), expected_df)
-
-
 def test_convert_uris_to_ids():
     base_path = os.path.dirname(__file__)
-    test_data_path = os.path.join(base_path, '../test_data/clean_tracks_data.csv')
+    test_data_path = os.path.join(base_path, '../test_data/drop_columns_data.csv')
 
     expected_data_path = os.path.join(
         base_path,
@@ -133,6 +116,23 @@ def test_simplify_and_expand_artist_genres():
     expected_df = pd.read_csv(expected_data_path)
 
     output = simplify_and_expand_artist_genres(df)
+
+    pd.testing.assert_frame_equal(output.reset_index(drop=True), expected_df)
+
+
+def test_clean_tracks():
+    base_path = os.path.dirname(__file__)
+    test_data_path = os.path.join(base_path, '../test_data/simplify_and_expand_artist_genres_data.csv')
+
+    expected_data_path = os.path.join(
+        base_path,
+        '../test_data/clean_tracks_data.csv'
+    )
+
+    df = pd.read_csv(test_data_path)
+    expected_df = pd.read_csv(expected_data_path)
+
+    output = clean_tracks(df)
 
     pd.testing.assert_frame_equal(output.reset_index(drop=True), expected_df)
 
