@@ -27,18 +27,12 @@ LOAD_QUERY_FILES = {
 
 
 def import_sql_query(filename):
-    """
-
-    Args:
-
-    Returns:
-
-    """
     try:
         with open(filename, 'r') as file:
             imported_query = file.read().replace('\n', ' ').strip()
             print(f"Successfully imported query from {filename}")
             return imported_query
+
     except FileNotFoundError as e:
         print(f"Failed to import query: {filename} not found")
         raise QueryExecutionError(f"Failed to import query: {e}")
@@ -46,26 +40,16 @@ def import_sql_query(filename):
 
 def load_data(data):
 
-    # Save data data to an SQL table in target database
+    # save data data to an SQL table in target database
     load_table(data)
 
-    # Perform post-load enrichment of the data in the database
-    # This approach would be suitable if the end users want us
-    # to create a single table of the whole merged data and then
-    # provide some views on top of it
+    # create views
     enrich_database_data()
 
     return None
 
 
 def load_table(data):
-    """
-
-    Args:
-
-    Returns:
-
-    """
     try:
         connection_details = load_db_config()["target_database"]
         connection = get_db_connection(connection_details)
@@ -73,34 +57,37 @@ def load_table(data):
         schema = connection_details.get("dbschema", "public")
 
         with connection.begin():
-            # Set the schema for the session
+            # set the schema for the session
             connection.execute(text(f"SET search_path TO {schema}"))
 
-            # Load data into the table
+            # load data into the table
             data.to_sql(
                 TARGET_TABLE_NAME, connection, if_exists="fail", index=False
             )
 
-            # Set the primary key
+            # set the primary key
             set_primary_key(connection)
 
     except ValueError:
         print("Target table exists")
         print("Upserting data into existing table instead")
-        # set_primary_key(connection)
         upsert_on_existing_table(data, connection)
+
     except DatabaseConfigError as e:
         print(f"Target database not configured correctly: {e}")
         raise
+
     except DatabaseConnectionError as e:
         print(
             f"Failed to connect to the database when creating data table:"
             f" {e}"
         )
         raise
+
     except pd.errors.DatabaseError as e:
         print(f"Failed to create data table: {e}")
         raise QueryExecutionError(f"Failed to execute query: {e}")
+
     finally:
         connection.close()
         print("Successfully closed database connection.")
@@ -113,18 +100,17 @@ def upsert_on_existing_table(data: pd.DataFrame, connection):
     try:
         connection_details = load_db_config()["target_database"]
         schema = connection_details.get("dbschema", "public")
-        # Default to 'public'
 
-        # Set the schema for the session
+        # set the schema for the session
         connection.execute(text(f"SET search_path TO {schema}"))
 
         data_dict = data.to_dict(orient="records")
 
-        # Reflect the table from the database
+        # reflect the table from the database
         metadata = MetaData()
         table = Table(TARGET_TABLE_NAME, metadata, autoload_with=connection)
 
-        # Create an insert statement with an upsert (ON CONFLICT) clause
+        # create an insert statement with an upsert (ON CONFLICT) clause
         insert_stmt = insert(table).values(data_dict)
         upsert_stmt = insert_stmt.on_conflict_do_update(
             index_elements=["track_id"],
@@ -135,22 +121,25 @@ def upsert_on_existing_table(data: pd.DataFrame, connection):
             },
         )
 
-        # Create a session
+        # create a session
         Session = sessionmaker(bind=connection)
         session = Session()
 
-        # # Execute the upsert statement within a transaction
+        # execute the upsert statement within a transaction
         session.execute(upsert_stmt)
         session.commit()
+
     except SQLAlchemyError as e:
         if "session" in locals():
             session.rollback()
         raise QueryExecutionError(f"Failed to execute upsert query: {e}")
+
     except Exception as e:
         if "session" in locals():
             session.rollback()
         print(f"An error occurred when upserting data: {e}")
         raise
+
     finally:
         if "session" in locals():
             session.close()
@@ -158,20 +147,15 @@ def upsert_on_existing_table(data: pd.DataFrame, connection):
 
 
 def set_primary_key(connection):
-    """
-
-    Args:
-
-    Returns:
-
-    """
     create_primary_key_query = import_sql_query(
         LOAD_QUERY_FILES["set_primary_key"]
     )
     executable_sql = text(create_primary_key_query)
+
     try:
         connection.execute(executable_sql)
         print("Primary key set on target table")
+
     except Exception as e:
         print(f"Error setting primary key on target table: {e}")
         raise

@@ -17,7 +17,7 @@ def transform_data(tracks: pd.DataFrame, state: str) -> pd.DataFrame:
     # format dataframe column names
     tracks = format_column_names(tracks)
 
-    # Remove user API data
+    # remove user API data
     tracks = drop_columns(tracks)
 
     # changes data format to make it compatible with API
@@ -39,7 +39,7 @@ def transform_data(tracks: pd.DataFrame, state: str) -> pd.DataFrame:
     # add columns for cleaner genre for the lols
     tracks = simplify_and_expand_artist_genres(tracks)
 
-    # Clean dataframe
+    # clean dataframe
     tracks = clean_tracks(tracks)
 
     return tracks
@@ -91,10 +91,10 @@ def update_API_data(dataframe: pd.DataFrame, token) -> pd.DataFrame:
                          item in response['tracks']]
             temp_pop = [item['popularity'] for item in response['tracks']]
 
-            # Create a mapping of ISRC to popularity
+            # create a mapping of ISRC to popularity
             isrc_pop_map = dict(zip(temp_isrc, temp_pop))
 
-            # Update the popularity column in df2 only if ISRC matches
+            # update the popularity column in df2 only if ISRC matches
             for idx in dataframe[i:end_index].index:
                 try:
                     isrc_value = dataframe.loc[idx, 'isrc']
@@ -103,19 +103,19 @@ def update_API_data(dataframe: pd.DataFrame, token) -> pd.DataFrame:
                                 isrc_value
                             ]
                     else:
-                        # Set as null if ISRC doesn't match
+                        # set as null if ISRC doesn't match
                         updated_df.loc[idx, 'popularity'] = pd.NA
                 except Exception as row_error:
 
                     print(f"Error processing row {idx}: {row_error}")
-                    # Set as null for problematic rows
+                    # set as null for problematic rows
                     updated_df.loc[idx, 'popularity'] = pd.NA
         except Exception as batch_error:
             # if a batch fails, move to row by row updation for that batch
 
             for j in range(i, end_index):
                 try:
-                    # Attempt to process each track IDs individually
+                    # attempt to process each track IDs individually
                     track_id = dataframe.loc[j, 'track_id']
                     a = get_track_data(token, track_id)
 
@@ -167,7 +167,7 @@ def convert_uris_to_ids(tracks: pd.DataFrame) -> pd.DataFrame:
     Returns:
 
     """
-    # Convert Spotify URIs to IDs
+    # convert Spotify URIs to IDs
     tracks['track_id'] = tracks['track_id'].str.replace('spotify:track:',
                                                         '', regex=False)
 
@@ -199,7 +199,7 @@ def clean_tracks(tracks: pd.DataFrame) -> pd.DataFrame:
 
     tracks = tracks.dropna(subset=['popularity'])
 
-    # Convert the year to an integer
+    # convert the year to an integer
     tracks['album_year'] = tracks['album_year'].astype(int)
 
     tracks['explicit'] = tracks['explicit'].map({'True': True, 'False': False})
@@ -214,7 +214,7 @@ def remove_missing_values(tracks: pd.DataFrame) -> pd.DataFrame:
     Drop rows where specific columns have missing data
     """
 
-    # Remove rows with missing values
+    # remove rows with missing values
     tracks = tracks.dropna(subset=['track_id', 'track_name',
                                    'artist_id', 'artist_names',
                                    'album_year', 'album_id',
@@ -229,10 +229,10 @@ def drop_columns(tracks: pd.DataFrame) -> pd.DataFrame:
     Remove columns
     """
 
-    # Remove user API data
+    # remove user API data
     tracks = tracks.drop(columns=['added_at', 'added_by'])
 
-    # Remove unnecessary columns
+    # remove unnecessary columns
     tracks = tracks.drop(columns=['track_preview_url', 'album_genres',
                                   'copyrights', 'label'])
     return tracks
@@ -262,7 +262,7 @@ def update_data(tracks, filepath):
 
     new_pop_data = extract_data(file=filepath)
 
-    # Create a mapping of ISRC to popularity
+    # create a mapping of ISRC to popularity
     new_pop_data_map = dict(zip(new_pop_data['track_id'],
                                 new_pop_data['popularity']))
 
@@ -271,7 +271,7 @@ def update_data(tracks, filepath):
     for idx in tracks.index:
         tracks.loc[idx, 'popularity'] = new_pop_data_map.get(idx, pd.NA)
 
-    # Reset index to avoid side effects
+    # reset index to avoid side effects
     tracks.reset_index(inplace=True)
 
     tracks = tracks.dropna(subset=['popularity'])
