@@ -1,6 +1,7 @@
 import pandas as pd
 import re
 import requests
+from utils.api_utils import verify_request
 
 
 def get_track_data(token, track_id):
@@ -19,12 +20,12 @@ def get_track_data(token, track_id):
     params = {
         "market": "ES",
     }
-    response = requests.get(url, headers=headers, params=params)
-
-    if response.status_code == 200:
+    try:
+        response = requests.get(url, headers=headers, params=params)
+        verify_request(response)
         return response.json()
-    else:
-        raise f'Error:, {response.status_code, response.json()}'
+    except Exception as e:
+        raise RuntimeError(f"Error during Spotify authentication: {e}")
 
 
 def get_tracks_data(token, track_ids):
@@ -45,12 +46,12 @@ def get_tracks_data(token, track_ids):
     params = {
         "market": "ES",
     }
-    response = requests.get(url, headers=headers, params=params)
-
-    if response.status_code == 200:
+    try:
+        response = requests.get(url, headers=headers, params=params)
+        verify_request(response)
         return response.json()
-    else:
-        raise f'Error:, {response.status_code, response.json()}'
+    except Exception as e:
+        raise RuntimeError(f"Error during Spotify authentication: {e}")
 
 
 def set_index(tracks: pd.DataFrame) -> pd.DataFrame:

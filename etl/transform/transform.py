@@ -153,6 +153,9 @@ def update_API_data(dataframe: pd.DataFrame, token) -> pd.DataFrame:
             print(f"Track IDs in batch: {tracks_ids}")
             continue
 
+    updated_df.reset_index(inplace=True)
+    updated_df = updated_df.dropna(subset=['popularity'])
+
     return updated_df
 
 
@@ -270,5 +273,7 @@ def update_data(tracks, filepath):
 
     # Reset index to avoid side effects
     tracks.reset_index(inplace=True)
+
+    tracks = tracks.dropna(subset=['popularity'])
 
     return tracks

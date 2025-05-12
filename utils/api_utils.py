@@ -11,10 +11,12 @@ def AuthenticateSpotify():
     Returns:
 
     """
-
     # Spotify client credentials
     client_id = os.getenv('CLIENT_ID')
     client_secret = os.getenv('CLIENT_SECRET')
+
+    if not client_id or not client_secret:
+        raise RuntimeError("CLIENT_ID or CLIENT_SECRET environment variables are not set.")
 
     # Encode client_id and client_secret in Base64
     auth_header = base64.b64encode(f"{client_id}:{client_secret}".encode())
@@ -32,11 +34,10 @@ def AuthenticateSpotify():
         # Make the POST request to get the access token
         response = requests.post("https://accounts.spotify.com/api/token",
                                  headers=headers, data=data)
-    except requests.exceptions.RequestException as e:
-        raise f"Error: {e}"
-
-    access_token = response.json().get("access_token")
-    return access_token
+        verify_request(response)
+        return response.json().get("access_token")
+    except Exception as e:
+        raise RuntimeError(f"Error during Spotify authentication: {e}")
 
 
 def verify_request(response):
@@ -46,11 +47,7 @@ def verify_request(response):
                      429: 'The app has exceeded its rate limits.'}
     if resp == 200:
         print("Request was successful")
-    elif resp == 401:
-        raise f"Error: {resp} {response_dict[resp]}"
-    elif resp == 403:
-        raise f"Error: {resp} {response_dict[resp]}"
-    elif resp == 429:
-        raise f"Error: {resp} {response_dict[resp]}"
+    elif resp in response_dict:
+        raise RuntimeError(f"Error: {resp} {response_dict[resp]}")
     else:
-        pass
+        response.raise_for_status()
