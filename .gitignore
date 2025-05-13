@@ -167,4 +167,4 @@ streamlit/.streamlit/secrets.toml
 
 #working files
 data/workbook.ipynb
-test/test_data/temp_workbook.ipynb
+tests/test_data/temp_workbook.ipynb
