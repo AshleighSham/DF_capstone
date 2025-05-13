@@ -11,38 +11,27 @@ class QueryExecutionError(Exception):
 
 
 def get_db_connection(connection_params):
-    """
-
-    Args:
-
-    Returns:
-
-    """
     try:
         engine = create_db_engine(connection_params)
         connection = engine.connect()
         print("Successfully connected to the database.")
         return connection
+
     except OperationalError as e:
         raise DatabaseConnectionError(
             f"Operational error when connecting to the database: {e}"
         )
+
     except SQLAlchemyError as e:
         raise DatabaseConnectionError(
             f"Failed to connect to the database: {e}"
         )
+
     except Exception as e:
-        raise Exception(f"An error occurred: {e}")
+        raise Exception(f"Error: {e}")
 
 
 def create_db_engine(connection_params):
-    """
-
-    Args:
-
-    Returns:
-
-    """
     try:
         if (
             not connection_params.get("user")
@@ -59,5 +48,6 @@ def create_db_engine(connection_params):
         )
         print("Successfully created the database engine.")
         return engine
+
     except ValueError as e:
         raise DatabaseConnectionError(f"Invalid Connection Parameters: {e}")

@@ -3,15 +3,34 @@ import streamlit as st
 
 
 def heat_map(data):
-    data.set_index(['year_group'], inplace=True)
+    opt = ['0', '1-10', '11-20', '21-30',
+           '31-40', '41-50', '51-60',
+           '61-70', '71-80', '81-90', '91-100']
 
+    plot_spot = st.empty()
+
+    selected_bins = st.pills(':green[Select Bins]',
+                             selection_mode="multi",
+                             options=[
+                                '0', '1-10', '11-20', '21-30',
+                                '31-40', '41-50', '51-60',
+                                '61-70', '71-80', '81-90', '91-100'
+                                ]
+                             )
+
+    filter = [item for item in opt
+              if item not in selected_bins]
+    filter.sort()
+    data.set_index(['year_group'], inplace=True)
+    data = data.reindex(columns=filter)
     fig = px.imshow(data, x=data.columns, y=data.index,
                     color_continuous_scale='aggrnyl')
     fig.update_xaxes(title_text="Popularity")
     fig.update_yaxes(title_text="Release Year")
-    fig.update_layout(width=500, height=1000)
+    fig.update_layout(width=500, height=800)
 
-    st.plotly_chart(fig)
+    with plot_spot.container():
+        st.plotly_chart(fig)
 
 
 # ['aggrnyl', 'agsunset', 'algae', 'amp',
