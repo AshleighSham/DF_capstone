@@ -1,6 +1,6 @@
 CREATE OR REPLACE VIEW as_popularity_by_year AS
 SELECT
-    FLOOR(album_year / 5) * 5 AS year_group,
+    album_year,
     COUNT(CASE WHEN popularity = 0 THEN 1 END) AS bin_0,
     COUNT(CASE WHEN popularity BETWEEN 1 AND 10 THEN 1 END) AS bin_1_10,
     COUNT(CASE WHEN popularity BETWEEN 11 AND 20 THEN 1 END) AS bin_11_20,
@@ -15,6 +15,6 @@ SELECT
 FROM
     as_capstone
 GROUP BY
-    FLOOR(album_year / 5) * 5
+    album_year
 ORDER BY
-    year_group;
+    album_year;

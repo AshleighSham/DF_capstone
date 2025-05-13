@@ -1,6 +1,6 @@
 import pandas as pd
 import os
-from sqlalchemy import text, Table, MetaData
+from sqlalchemy import text, Table, MetaData, types
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.orm import sessionmaker
@@ -24,6 +24,30 @@ LOAD_QUERY_FILES = {
         os.path.dirname(QUERY_PATH), "sql/set_primary_key.sql"
     ),
 }
+
+
+DATA_TYPES = {'album_year': types.INTEGER(),
+              'disc_number': types.INTEGER(),
+              'track_number': types.INTEGER(),
+              'explicit': types.BOOLEAN(),
+              'popularity': types.INTEGER(),
+              'pop': types.BOOLEAN,
+              'rock': types.BOOLEAN,
+              'hip_hop': types.BOOLEAN,
+              'electronic': types.BOOLEAN,
+              'rnb_soul': types.BOOLEAN,
+              'folk': types.BOOLEAN,
+              'country': types.BOOLEAN,
+              'ska': types.BOOLEAN,
+              'dance_disco': types.BOOLEAN,
+              'indie_alt': types.BOOLEAN,
+              'retro_vintage': types.BOOLEAN,
+              'novelty': types.BOOLEAN,
+              'easy_listening': types.BOOLEAN,
+              'cultural': types.BOOLEAN,
+              'jazz': types.BOOLEAN,
+              'genre_count': types.INTEGER
+              }
 
 
 def import_sql_query(filename):
@@ -62,7 +86,8 @@ def load_table(data):
 
             # load data into the table
             data.to_sql(
-                TARGET_TABLE_NAME, connection, if_exists="fail", index=False
+                TARGET_TABLE_NAME, connection, if_exists="fail", index=False,
+                dtype=DATA_TYPES
             )
 
             # set the primary key
@@ -79,8 +104,7 @@ def load_table(data):
 
     except DatabaseConnectionError as e:
         print(
-            f"Failed to connect to the database when creating data table:"
-            f" {e}"
+            f"Failed to connect to the database: {e}"
         )
         raise
 

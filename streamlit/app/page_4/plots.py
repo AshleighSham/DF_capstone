@@ -21,33 +21,28 @@ def bar_graph(results):
             'Easy Listening': '#9b19f5'
             }
 
+    selected_genres = st.pills(':green[Select Genres]',
+                               selection_mode="multi",
+                               options=[
+                                    'Pop', 'Rock', 'Hip-Hop',
+                                    'Electronic', 'R&B/soul',
+                                    'Folk', 'Country', 'Ska',
+                                    'Disco/Dance', 'Indie/Alternative',
+                                    'Retro/Vintage', 'Novelty',
+                                    'Easy Listening'
+                                    ]
+                               )
+
+    filter = [item for item in color_discrete_map.keys()
+              if item not in selected_genres]
+    filter.sort()
+
     plot_spot = st.empty()
 
     selected_years = st.slider(
         ":green[Select a Range of Years]", 1950, 2024,
         value=[1950, 2024]
     )
-
-    filter = st.multiselect(':green[Select Genres]',
-                            options=[
-                                'Pop', 'Rock', 'Hip-Hop',
-                                'Electronic', 'R&B/soul',
-                                'Folk', 'Country', 'Ska',
-                                'Disco/Dance', 'Indie/Alternative',
-                                'Retro/Vintage', 'Novelty',
-                                'Easy Listening'
-                                ],
-                            default=[
-                                'Pop', 'Rock', 'Hip-Hop',
-                                'Electronic', 'R&B/soul',
-                                'Folk', 'Country', 'Ska',
-                                'Disco/Dance', 'Indie/Alternative',
-                                'Retro/Vintage', 'Novelty',
-                                'Easy Listening'
-                                ]
-                            )
-
-    filter.sort()
 
     results.set_index("album_year", inplace=True)
 

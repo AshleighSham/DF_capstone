@@ -206,6 +206,14 @@ def clean_tracks(tracks: pd.DataFrame) -> pd.DataFrame:
     with pd.option_context("future.no_silent_downcasting", True):
         tracks['explicit'] = tracks['explicit'].fillna(False).astype(bool)
 
+    tracks['popularity'] = tracks['popularity'].astype(int)
+
+    tracks['disc_number'] = tracks['disc_number'].astype(int)
+
+    tracks['track_number'] = tracks['track_number'].astype(int)
+
+    tracks['track_duration_ms'] = tracks['track_duration_ms'].astype(int)
+
     return tracks
 
 

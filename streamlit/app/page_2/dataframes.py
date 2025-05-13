@@ -14,18 +14,16 @@ def get_full_album_dataframe(albums_df, overall):
 
 
 def display_albums_dataframe(albums_df):
+    # standardise date format
+    albums_df['release_date'] = pd.to_datetime(albums_df['release_date'],
+                                               errors='coerce').dt.year
+    albums_df['release_date'] = albums_df['release_date'].astype(int)
     data = albums_df[['album',
                       'total_tracks',
                       'release_date',
                       'label',
                       'popularity']]
 
-    # standardise date format
-    data['release_date'] = pd.to_datetime(data['release_date'],
-                                          errors='coerce').dt.year
-
-    # Convert the year to an integer
-    data['release_date'] = data['release_date'].astype(int)
     st.dataframe(
         data,
         hide_index=True,
