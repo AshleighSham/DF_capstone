@@ -3,6 +3,7 @@ import plotly.graph_objects as go
 
 
 def bar_graph(results):
+    # full_results = results.copy()
     st.title(":green[Genre Trends Through The Years]")
 
     color_discrete_map = {
