@@ -19,6 +19,6 @@ def popularity_by_year(conn):
     # Convert the result to a Pandas DataFrame
     df = pd.DataFrame(result)
 
-    space1, col1, spac2 = st.columns([1, 3, 1])
+    space1, col1, spac2 = st.columns([1, 10, 1])
     with col1:
         heat_map(df)

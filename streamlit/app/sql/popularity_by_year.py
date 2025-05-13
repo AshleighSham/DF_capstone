@@ -3,7 +3,7 @@
 def popularity_by_year_query(schema, group_size):
     query = f"""SELECT
     FLOOR(album_year / {group_size}) * {group_size} AS year_group,
-    SUM(bin_0) as "0",
+    SUM(bin_0) as "0-0",
     SUM(bin_1_10) as "1-10",
     SUM(bin_11_20) as "11-20",
     SUM(bin_21_30) as "21-30",

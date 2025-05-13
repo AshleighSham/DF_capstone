@@ -1,9 +1,9 @@
-import plotly.express as px
 import streamlit as st
+import plotly.graph_objects as go
 
 
 def heat_map(data):
-    opt = ['0', '1-10', '11-20', '21-30',
+    opt = ['0-0', '1-10', '11-20', '21-30',
            '31-40', '41-50', '51-60',
            '61-70', '71-80', '81-90', '91-100']
 
@@ -11,20 +11,33 @@ def heat_map(data):
 
     selected_bins = st.pills(':green[Select Bins]',
                              selection_mode="multi",
-                             options=[
-                                '0', '1-10', '11-20', '21-30',
-                                '31-40', '41-50', '51-60',
-                                '61-70', '71-80', '81-90', '91-100'
-                                ]
+                             options=opt
                              )
 
     filter = [item for item in opt
               if item not in selected_bins]
-    filter.sort()
-    data.set_index(['year_group'], inplace=True)
+
+    if not filter:
+        st.warning("Please select at least one bin.")
+        return
+
+    filter.insert(0, 'year_group')
     data = data.reindex(columns=filter)
-    fig = px.imshow(data, x=data.columns, y=data.index,
-                    color_continuous_scale='aggrnyl')
+    data.set_index(['year_group'], inplace=True)
+
+    data = data.loc[:, (data != 0).any(axis=0)]
+
+    if data.empty:
+        st.error("No data available for the selected bins.")
+        return
+
+    fig = go.Figure(data=go.Heatmap(
+        z=data.values,
+        x=data.columns,
+        y=data.index,
+        colorscale='aggrnyl'
+    ))
+
     fig.update_xaxes(title_text="Popularity")
     fig.update_yaxes(title_text="Release Year")
     fig.update_layout(width=500, height=800)

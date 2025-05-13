@@ -17,6 +17,12 @@ bl2 = (
 
 st.sidebar.title(":green[Artist Top Albums]")
 with st.sidebar:
+    st.write(("The albums included in the Artist Top Albums are "
+              "those with whose tracks are in the artist Top Tracks."
+              " Genreal information regarding this albums is"
+              " displayed at the top of this page. For more"
+              " in-depth individual album data you can select"
+              " your album of choice in the Album Data section of this page."))
     st.link_button(":green[Go to Spotify's Get Several Ablums API]", bl1)
     st.link_button(":green[Go to Spotify's Get Several Tracks API]", bl2)
 st.header(":green[Spotify Data Explorer]")
