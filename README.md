@@ -181,6 +181,7 @@ client_id = "{your client ID}"
 client_secret = "{your client secret}"
 ```
 
+## analytical questions you aimed to answer, and a summary of your findings
 
 ## FAQ
 ### How would you optimise query execution and performance if the dataset continues to increase?
