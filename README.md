@@ -7,7 +7,8 @@
 - [User Stories](#user-stories)
 - [Repository Structure](#repository-structure)
 - [Setting up the Spotify API and PostgreSQL Compatibility](#setting-up-the-spotify-api-and-postgresql-compatibility)
-- [FAQ](#FAQ)
+- [Project Outcome](#project-outcome)
+- [FAQs](#FAQs)
 
 ## Project Overview
 
@@ -164,7 +165,7 @@ TARGET_DB_PORT={port}
 CLIENT_ID={your client ID}
 CLIENT_SECRET={your client secret}
 ```
-And for the streamlit app to function a secrets.toml file needs to be added to the streamlit/.streamlit directory with the following information.
+And for the streamlit app to function, a secrets.toml file needs to be added to the streamlit/.streamlit directory with the following information.
 ```toml
 [connections.sql]
 dialect = "postgresql"
@@ -181,10 +182,16 @@ client_id = "{your client ID}"
 client_secret = "{your client secret}"
 ```
 
-## analytical questions you aimed to answer, and a summary of your findings
+## Project Outcome
+The main goal of mine when looking into this dataset was to see the changes in genres, trends, popularity and audio features over time. Genres such as pop have increased in popularity over time, taking up a much larger proportion of the tracks in a given year. However, it is far to point out that the dataset does not have an even spread of tracks across the timeframe, making this a loose conclusion. The trends around audio features are slightly more reflective of what could be true outside of this dataset. Features such as Loudness, Speechiness and danceability have increased, but specifically valence has decreased. Implying that the songs are more upbeat in tune and volume, the musical positivity of the tracks has decreased over time, which, at least I do see as being plausible. The popularity by year heatmap shows that the majority of songs in the dataset per year seem to have a rating of 0, implying that while they were popular at the time, a lot of the songs in this dataset have not aged well. When removing the 0 bin fromthe heat map you get a cleaer view of the pread of popularity where the rating that has the highest density being around 1-10 and 61-70 in the year s around 2010, where most of the data is, so some of the tracks still seem to be holding on.
 
-## FAQ
+## FAQs
+
 ### How would you optimise query execution and performance if the dataset continues to increase?
+For query performance, the use of views such as my genres_by_year view is helpful. Other options could be to look into partitioning the tables by genre or by album release year, depending on the queries being made.
 ### What error handling and logging have you included in your code, and how could this be leveraged?
-### Are there any security or privacy issues that you need to consider,r and how would you mitigate them?
+There are multiple examples of error handling throughout this repository. There are errors handling around the API calls, some of the transformation functions, for example. There is also error handling around using the database that was very helpful in debugging connection issues throughout the loading part of this project. Under the time constraint, no logging was used in this project, but introducing a logger would provide clearer and easier-to-follow error reports.
+### Are there any security or privacy issues that you need to consider, and how would you mitigate them?
+In terms of the data used within this project, there is no data risk as all of the data is publicly available. The only security risk around this project is the connections to a Spotify app and a Postgresql database, both of which are excluded from the git repository, requiring anyone aiming to download and use it to have access to their own.
 ### How could this project be deployed or adapted into an automated cloud environment using the AWS services you have covered?
+An easy first suggestion would be to replace the Postgresql database with an AWS alternative, such as Amazon RDS, the raw CSV file could easily be stored in an S3 database. An AWS Lambda function can be implemented to trigger the ETL process when new data is added to/updated in the S3 bucket. AWS CloudWatch can be used to monitor the ETL process and log the errors or execution times of functions.
