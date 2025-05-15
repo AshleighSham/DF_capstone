@@ -190,6 +190,8 @@ def clean_tracks(tracks: pd.DataFrame) -> pd.DataFrame:
     # remove duplicates
     tracks = tracks.drop_duplicates()
 
+    tracks = tracks.copy()
+
     # standardise date format
     tracks['album_year'] = pd.to_datetime(tracks['album_year'],
                                           errors='coerce').dt.year
