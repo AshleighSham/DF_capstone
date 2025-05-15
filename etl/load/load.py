@@ -115,20 +115,14 @@ def load_table(data):
         connection_details = load_db_config()["target_database"]
         connection = get_db_connection(connection_details)
 
-        schema = connection_details.get("dbschema", "public")
+        # load data into the table
+        data.to_sql(
+            TARGET_TABLE_NAME, connection, if_exists="fail", index=False,
+            dtype=DATA_TYPES
+        )
 
-        with connection.begin():
-            # set the schema for the session
-            connection.execute(text(f"SET search_path TO {schema}"))
-
-            # load data into the table
-            data.to_sql(
-                TARGET_TABLE_NAME, connection, if_exists="fail", index=False,
-                dtype=DATA_TYPES
-            )
-
-            # set the primary key
-            set_primary_key(connection)
+        # set the primary key
+        set_primary_key(connection)
 
     except ValueError:
         print("Target table exists")
@@ -179,9 +173,9 @@ def upsert_on_existing_table(data: pd.DataFrame, connection):
         # create an insert statement with an upsert (ON CONFLICT) clause
         insert_stmt = insert(table).values(data_dict)
         upsert_stmt = insert_stmt.on_conflict_do_update(
-            constraint='pk_track_id',
+            index_elements=["track_id"],
             set_={
-                'popularity': insert_stmt.excluded.popularity
+                "popularity": insert_stmt.excluded.popularity
             },
         )
 

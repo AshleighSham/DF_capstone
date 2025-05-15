@@ -20,7 +20,7 @@ def load_db_config() -> Dict[str, Dict[str, str]]:
     """
     config = {
         "target_database": {
-            "dbschema": os.getenv("TARGET_DB_SCHEMA", "error"),
+            "schema": os.getenv("TARGET_DB_SCHEMA", "public"),
             "dbname": os.getenv("TARGET_DB_NAME", "error"),
             "user": os.getenv("TARGET_DB_USER", "error"),
             "password": os.getenv("TARGET_DB_PASSWORD", ""),

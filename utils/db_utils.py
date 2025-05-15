@@ -45,6 +45,7 @@ def create_db_engine(connection_params):
             f"postgresql+psycopg2://{connection_params['user']}"
             f":{connection_params['password']}@{connection_params['host']}"
             f":{connection_params['port']}/{connection_params['dbname']}"
+            f"?options=-csearch_path%3D{connection_params['schema']}"
         )
         print("Successfully created the database engine.")
         return engine
