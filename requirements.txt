@@ -18,7 +18,7 @@ cycler==0.12.1
 debugpy==1.8.14
 decorator==5.2.1
 diff_cover==9.2.4
--e git+https://github.com/AshleighSham/DF_capstone.git@64fbf9844e12584838a2a6f7125926688c941e13#egg=spotify_etl_pipeline
+git+https://github.com/AshleighSham/DF_capstone.git@64fbf9844e12584838a2a6f7125926688c941e13#egg=spotify_etl_pipeline
 executing==2.2.0
 findspark==2.0.1
 flake8==7.2.0
@@ -85,7 +85,6 @@ pytest-postgresql==7.0.1
 python-dateutil==2.9.0.post0
 python-dotenv==1.1.0
 pytz==2025.2
-pywin32==310
 PyYAML==6.0.2
 pyzmq==26.4.0
 referencing==0.36.2
