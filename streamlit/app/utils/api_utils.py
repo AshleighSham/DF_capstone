@@ -19,7 +19,6 @@ def AuthenticateSpotify():
     # Spotify client credentials
     client_id = st.secrets.api_credentials.client_id
     client_secret = st.secrets.api_credentials.client_secret
-    print(client_secret)
 
     if not client_id or not client_secret:
         raise RuntimeError(("CLIENT_ID or CLIENT_SECRET environment"
