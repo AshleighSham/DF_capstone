@@ -34,9 +34,10 @@ def main():
     transformed_data = transform_data(extracted_data, sys.argv[2])
     print("Data Transformation complete.")
 
-    # save the transformed data tpo csv to test against sql database
-    # filepath = os.path.join("data/clean/transformed_data.csv")
-    # transformed_data.to_csv(filepath, index=False)
+    if sys.argv[2] == 'new':
+        # save the transformed data tpo csv to test against sql database
+        filepath = os.path.join("data/clean/transformed_data.csv")
+        transformed_data.to_csv(filepath, index=False)
 
     # Loads the transformed data into a PostgreSQL database
     print("Loading data into PostgreSQL...")

@@ -11,6 +11,7 @@ from utils.db_utils import (
     QueryExecutionError,
 )
 from etl.load.post_load_enrichment import enrich_database_data
+import numpy as np
 
 
 ROOT_DIR = "c:/Users/ashle/Documents/GitHub/DF_capstone"
@@ -26,11 +27,21 @@ LOAD_QUERY_FILES = {
 }
 
 
-DATA_TYPES = {'album_year': types.INTEGER(),
-              'disc_number': types.INTEGER(),
-              'track_number': types.INTEGER(),
-              'explicit': types.BOOLEAN(),
-              'popularity': types.INTEGER(),
+DATA_TYPES = {'track_id': types.String,
+              'track_name': types.String,
+              'artist_id': types.String,
+              'artist_names': types.String,
+              'album_id': types.String,
+              'album_name': types.String,
+              'album_artist_id': types.String,
+              'album_artist_names': types.String,
+              'album_image_url': types.String,
+              'isrc': types.String,
+              'album_year': types.INTEGER,
+              'disc_number': types.INTEGER,
+              'track_number': types.INTEGER,
+              'explicit': types.BOOLEAN,
+              'popularity': types.INTEGER,
               'pop': types.BOOLEAN,
               'rock': types.BOOLEAN,
               'hip_hop': types.BOOLEAN,
@@ -48,6 +59,32 @@ DATA_TYPES = {'album_year': types.INTEGER(),
               'jazz': types.BOOLEAN,
               'genre_count': types.INTEGER
               }
+
+# Mapping SQLAlchemy types to Pandas types
+SQLALCHEMY_TO_PANDAS_TYPES = {
+    types.INTEGER: "int64",
+    types.BOOLEAN: "bool",
+    types.String: "str",
+    types.Float: "float64"
+}
+
+
+def enforce_data_types(data: pd.DataFrame, data_types: dict) -> pd.DataFrame:
+
+    for column, sql_type in data_types.items():
+        # map SQLAlchemy type to Pandas type
+        pandas_type = SQLALCHEMY_TO_PANDAS_TYPES.get(type(sql_type))
+        if pandas_type:
+            try:
+                data[column] = data[column].astype(pandas_type)
+
+            except KeyError:
+                print(f"Column {column} not found in DataFrame.")
+
+            except Exception as e:
+                print(f"Error converting {column} to {pandas_type}: {e}")
+
+    return data
 
 
 def import_sql_query(filename):
@@ -122,11 +159,16 @@ def upsert_on_existing_table(data: pd.DataFrame, connection):
     Upsert data into an existing table
     """
     try:
-        connection_details = load_db_config()["target_database"]
-        schema = connection_details.get("dbschema", "public")
+        if "index" in data.columns:
+            data = data.drop(columns=["index"])
 
-        # set the schema for the session
-        connection.execute(text(f"SET search_path TO {schema}"))
+        # Eenforce data types
+        data = enforce_data_types(data, DATA_TYPES)
+        data['popularity'] = data['popularity'].astype(np.int32)
+        data['album_year'] = data['album_year'].astype(np.int32)
+        data['disc_number'] = data['disc_number'].astype(np.int32)
+        data['track_number'] = data['track_number'].astype(np.int32)
+        data['genre_count'] = data['genre_count'].astype(np.int32)
 
         data_dict = data.to_dict(orient="records")
 
@@ -137,11 +179,9 @@ def upsert_on_existing_table(data: pd.DataFrame, connection):
         # create an insert statement with an upsert (ON CONFLICT) clause
         insert_stmt = insert(table).values(data_dict)
         upsert_stmt = insert_stmt.on_conflict_do_update(
-            index_elements=["track_id"],
+            constraint='pk_track_id',
             set_={
-                col.name: insert_stmt.excluded[col.name]
-                for col in table.columns
-                if col.name != "track_id"
+                'popularity': insert_stmt.excluded.popularity
             },
         )
 
@@ -149,13 +189,18 @@ def upsert_on_existing_table(data: pd.DataFrame, connection):
         Session = sessionmaker(bind=connection)
         session = Session()
 
-        # execute the upsert statement within a transaction
+        # Execute the upsert statement within a transaction
+        print("Executing upsert statement...")
         session.execute(upsert_stmt)
+        session.flush()
+        print("Committing transaction...")
         session.commit()
+        print("Transaction committed successfully.")
 
     except SQLAlchemyError as e:
         if "session" in locals():
             session.rollback()
+        print(f"SQLAlchemyError occurred: {e}")
         raise QueryExecutionError(f"Failed to execute upsert query: {e}")
 
     except Exception as e:

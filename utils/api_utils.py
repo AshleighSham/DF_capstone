@@ -43,13 +43,13 @@ def AuthenticateSpotify():
         verify_request(response)
         return response.json().get("access_token")
     except BadTokenError as e:
-        raise BadTokenError(f"Error during Spotify authentication: {e}")
+        raise BadTokenError(f"Spotify authentication Error: {e}")
     except ExceededRateLimitError as e:
-        raise ExceededRateLimitError(f"Error during Spotify authentication: {e}")
+        raise ExceededRateLimitError(f"Spotify authentication Error: {e}")
     except OAuthRequestError as e:
-        raise OAuthRequestError(f"Error during Spotify authentication: {e}")
+        raise OAuthRequestError(f"Spotify authentication Error: {e}")
     except Exception as e:
-        raise RuntimeError(f"Error during Spotify authentication: {e}")
+        raise RuntimeError(f"Spotify authentication Error: {e}")
 
 
 def verify_request(response):
