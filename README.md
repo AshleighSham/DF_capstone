@@ -8,11 +8,11 @@
 - [Repository Structure](#repository-structure)
 - [Setting up the Spotify API and PostgreSQL Compatibility](#setting-up-the-spotify-api-and-postgresql-compatibility)
 - [Project Outcome](#project-outcome)
-- [FAQs](#FAQs)
+- [FAQS](#faqs)
 
 ## Project Overview
 
-This Capstone Project was completed as part of my Data Engineering course with Digital Futures. It showcases the core data engineering skills taught throughout the program. The project implements an ETL (Extract, Transform, Load) pipeline, incorporates API usage, and presents the data through actionable visualisations. The project draws on two main data sources: Spotify’s API and a Kaggle dataset titled, ['Top 10000 Songs on Spotify 1950-Now' by Joakim Arvidsson](https://www.kaggle.com/datasets/joebeachcapital/top-10000-spotify-songs-1960-now). The Dataset is a collection of Spotify track information for high-ranking songs from the Australian Recording Industry Association and Billboard Charts. This dataset compiles Spotify track information for high-ranking songs based on the Australian Recording Industry Association and Billboard charts. Although some of Spotify’s more detailed APIs—such as those providing genre and audio features like tempo and valence—have since been deprecated, the dataset retains this information, offering valuable insight into musical trends over time and how these songs are perceived today. Combined with the Spotify Search API, the project also allows users to search for their favourite artists, explore their top songs and albums, and quickly check whether any tracks appear in the dataset.
+This Capstone Project was completed as part of my Data Engineering course with Digital Futures. It showcases the core data engineering skills taught throughout the program. The project implements an ETL (Extract, Transform, Load) pipeline, incorporates API usage, and presents the data through actionable visualisations. The project draws on two main data sources: Spotify’s API and a Kaggle dataset titled, ['Top 10000 Songs on Spotify 1950-Now' by Joakim Arvidsson](https://www.kaggle.com/datasets/joebeachcapital/top-10000-spotify-songs-1960-now). The Dataset I chose is a collection of Spotify track information for high-ranking songs based on charts such as the Australian Recording Industry Association and Billboard Charts. Although some of Spotify’s more detailed API (genre and audio features like tempo and valence) have been deprecated since the dataset was compiled, the dataset still retains this information, offering valuable insight into musical trends over time and how these songs are perceived today. Combined with the Spotify Search API, the project also allows users to search for their favourite artists, explore their top songs and albums, and quickly check whether any tracks from their chosen artist appear in the dataset.
 
 ## Objectives
 - Build a robust ETL Pipeline to process a CSV of Spotify data.
@@ -30,7 +30,7 @@ This Capstone Project was completed as part of my Data Engineering course with D
 - As a Data Engineer, I want to extract live data from Spotify API's for relevant analysis.
 - As a Data Engineer, I want to transform and standardise the dataset for accurate analysis.
 - As a Data Engineer, I want to load the data into a PostgreSQL database so that it can be easily queried.
-- As a Data Analyst, I want to view an Artist's Top track and Albums because I'm nosy.
+- As a Data Analyst, I want to view an Artist's Top tracks and Albums with corresponding duration, popularity and release year data to see any trends over time.
 - Aa a Data Analyst, I want to be able to filter data by year, genre or popularity so I can draw specific insights.
 
 ## Repository Structure
@@ -47,7 +47,7 @@ This GitHub repository is organised into separate directories, each representing
 - **streamlit:** Houses the streamlit application, run from within this directory with the command "streamlit run Home.py"
 - **tests:** Holds the tests for the ETL processes and relevant functions
 - **utils:** Hold files regarding general utilities for the different areas.
-- **.env.dev, .env.test:** two files containing the environment variables for testing and development
+- **.env, .env.dev, .env.test:** two files containing the environment variables for testing and development
 <details>
 <summary>ASCII Tree for Root Respository</summary>
   
@@ -150,7 +150,7 @@ Files required by the user to add are marked with *
 
 ## Setting up the Spotify API and PostgreSQL Compatibility
 
-To run the ETL pipeline, a functioning Spotify developer app and its relevant details are required and access to a PostgreSQL database. [Instructions on setting up a Spotify app can be found here](https://developer.spotify.com/documentation/web-api). The Client ID and Client Secret are for API use; the code below needs to be placed within your .env files in the root directory.
+To run the ETL pipeline, a functioning Spotify developer app and its relevant details are required, as well as access to a PostgreSQL database. [Instructions on setting up a Spotify app can be found here](https://developer.spotify.com/documentation/web-api). The Client ID and Client Secret are for API use; the code below needs to be placed within your .env files in the root directory.
 
 ```env
 # Target Database Configuration
@@ -183,15 +183,15 @@ client_secret = "{your client secret}"
 ```
 
 ## Project Outcome
-The main goal of mine when looking into this dataset was to see the changes in genres, trends, popularity and audio features over time. Genres such as pop have increased in popularity over time, taking up a much larger proportion of the tracks in a given year. However, it is far to point out that the dataset does not have an even spread of tracks across the timeframe, making this a loose conclusion. The trends around audio features are slightly more reflective of what could be true outside of this dataset. Features such as Loudness, Speechiness and danceability have increased, but specifically valence has decreased. Implying that the songs are more upbeat in tune and volume, the musical positivity of the tracks has decreased over time, which, at least I do see as being plausible. The popularity by year heatmap shows that the majority of songs in the dataset per year seem to have a rating of 0, implying that while they were popular at the time, a lot of the songs in this dataset have not aged well. When removing the 0 bin fromthe heat map you get a cleaer view of the pread of popularity where the rating that has the highest density being around 1-10 and 61-70 in the year s around 2010, where most of the data is, so some of the tracks still seem to be holding on.
+My main goal when looking into this dataset was to see the changes in genres, trends, popularity, and audio features over time. Genres such as pop have increased in popularity over time, taking up a much larger proportion of the tracks in a given year. However, it is far to point out that the dataset does not have an even spread of tracks across the timeframe, making this a loose conclusion. The trends around audio features are slightly more reflective of what could be true outside of this dataset. Features such as Loudness, Speechiness and danceability have increased, but specifically valence has decreased. Implying that the songs are more upbeat in tune and volume, the musical positivity of the tracks has decreased over time, which, at least I do see as being plausible. The popularity by year heatmap shows that the majority of songs in the dataset per year seem to have a rating of 0, implying that while they were popular at the time, a lot of the songs in this dataset have not aged well. When removing the 0 bin fromthe heat map you get a cleaer view of the pread of popularity where the rating that has the highest density being around 1-10 and 61-70 in the year s around 2010, where most of the data is, so some of the tracks still seem to be holding on.
 
-## FAQs
+## FAQS
 
 ### How would you optimise query execution and performance if the dataset continues to increase?
 For query performance, the use of views such as my genres_by_year view is helpful. Other options could be to look into partitioning the tables by genre or by album release year, depending on the queries being made.
 ### What error handling and logging have you included in your code, and how could this be leveraged?
 There are multiple examples of error handling throughout this repository. There are errors handling around the API calls, some of the transformation functions, for example. There is also error handling around using the database that was very helpful in debugging connection issues throughout the loading part of this project. Under the time constraint, no logging was used in this project, but introducing a logger would provide clearer and easier-to-follow error reports.
 ### Are there any security or privacy issues that you need to consider, and how would you mitigate them?
-In terms of the data used within this project, there is no data risk as all of the data is publicly available. The only security risk around this project is the connections to a Spotify app and a Postgresql database, both of which are excluded from the git repository, requiring anyone aiming to download and use it to have access to their own.
+In terms of the data used within this project, there is no data risk as all of the data is publicly available. The only security risk around this project is the connections to a Spotify app and a PostgreSQL database, both of which are excluded from the git repository, requiring anyone aiming to download and use it to have access to their own.
 ### How could this project be deployed or adapted into an automated cloud environment using the AWS services you have covered?
-An easy first suggestion would be to replace the Postgresql database with an AWS alternative, such as Amazon RDS, the raw CSV file could easily be stored in an S3 database. An AWS Lambda function can be implemented to trigger the ETL process when new data is added to/updated in the S3 bucket. AWS CloudWatch can be used to monitor the ETL process and log the errors or execution times of functions.
+An easy first suggestion would be to replace the PostgreSQL database with an AWS alternative, such as Amazon RDS. The raw CSV file could easily be stored in an S3 database. An AWS Lambda function can be implemented to trigger the ETL process when new data is added to/updated in the S3 bucket. AWS CloudWatch can be used to monitor the ETL process and log the errors or execution times of functions.
